@@ -355,6 +355,96 @@ a { text-decoration: none; color: inherit; }
   font-size: 0.82rem; color: #ffaaaa; line-height: 1.55;
 }
 .hb-err a { color: var(--gold-light); }
+/* Date range picker */
+.hb-date-range {
+  display: flex; align-items: stretch;
+  border: 1.5px solid rgba(255,255,255,0.2); border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.06); cursor: pointer; overflow: hidden;
+  transition: border-color var(--transition);
+}
+.hb-date-range:hover { border-color: rgba(255,255,255,0.35); }
+.hb-date-range.hb-dr-active { border-color: var(--gold); }
+.hb-dr-field {
+  flex: 1; padding: 10px 14px; display: flex; flex-direction: column; gap: 3px;
+  transition: background var(--transition); min-width: 0;
+}
+.hb-dr-field:hover { background: rgba(255,255,255,0.07); }
+.hb-dr-sep { width: 1px; background: rgba(255,255,255,0.13); flex-shrink: 0; margin: 8px 0; }
+.hb-dr-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+.hb-dr-value { font-size: 0.88rem; color: #fff; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hb-dr-placeholder { color: rgba(255,255,255,0.32) !important; font-weight: 400 !important; }
+/* Calendar popup overlay */
+.hb-cal-overlay {
+  position: fixed; inset: 0; z-index: 9000;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+}
+.hb-cal-overlay.open { opacity: 1; pointer-events: all; }
+.hb-cal-panel {
+  background: #fff; border-radius: 24px; padding: 28px 28px 20px;
+  width: min(740px, 96vw); box-shadow: 0 32px 100px rgba(0,0,0,0.3);
+  transform: translateY(24px) scale(0.98);
+  transition: transform 0.28s cubic-bezier(0.34,1.1,0.64,1);
+  max-height: 90vh; overflow-y: auto;
+}
+.hb-cal-overlay.open .hb-cal-panel { transform: translateY(0) scale(1); }
+.hb-cal-head {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+}
+.hb-cal-hint-text { font-family: var(--font-head); font-size: 1.05rem; color: var(--dark-text); font-weight: 600; }
+.hb-cal-navs { display: flex; gap: 8px; }
+.hb-cal-nav-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid #e0e0e0; background: #fff; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; color: var(--dark-text); line-height: 1;
+  transition: all 0.18s; font-family: inherit;
+}
+.hb-cal-nav-btn:hover:not(:disabled) { border-color: var(--forest); background: var(--forest); color: #fff; }
+.hb-cal-nav-btn:disabled { opacity: 0.3; cursor: default; }
+.hb-cal-months-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 16px; }
+@media (max-width: 580px) { .hb-cal-months-row { grid-template-columns: 1fr; gap: 24px; } }
+.hb-cal-month-title { text-align: center; font-weight: 700; font-size: 0.88rem; color: var(--dark-text); margin-bottom: 10px; letter-spacing: 0.03em; }
+.hb-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.hb-cal-dow { text-align: center; font-size: 0.66rem; font-weight: 700; color: var(--gray-text); padding: 4px 0; letter-spacing: 0.06em; }
+.hb-cal-day {
+  position: relative; aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 500; border-radius: 50%; cursor: pointer;
+  transition: background 0.13s, color 0.13s; user-select: none; z-index: 0;
+  color: var(--dark-text);
+}
+.hb-cal-day:not(.hb-cal-day--past):not(.hb-cal-day--booked):not(.hb-cal-day--empty):hover { background: rgba(26,61,40,0.1); color: var(--forest); }
+.hb-cal-day--empty { cursor: default; pointer-events: none; }
+.hb-cal-day--past { color: #ccc; cursor: default; pointer-events: none; }
+.hb-cal-day--booked { color: #d0d0d0; cursor: not-allowed; text-decoration: line-through; }
+.hb-cal-day--today { font-weight: 800; color: var(--forest); }
+.hb-cal-day--checkin,
+.hb-cal-day--checkout { background: var(--forest-dark) !important; color: #fff !important; font-weight: 700; border-radius: 50%; z-index: 2; }
+.hb-cal-day--range { background: rgba(26,61,40,0.1) !important; border-radius: 0; z-index: 1; }
+.hb-cal-day--range-start { border-radius: 50% 0 0 50% !important; }
+.hb-cal-day--range-end { border-radius: 0 50% 50% 0 !important; }
+.hb-cal-legend { display: flex; gap: 16px; margin-top: 16px; font-size: 0.75rem; color: var(--gray-text); align-items: center; }
+.hb-cal-legend-item { display: flex; align-items: center; gap: 6px; }
+.hb-cal-legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.hb-cal-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
+.hb-cal-clear-btn { background: none; border: none; font-size: 0.82rem; font-weight: 700; color: var(--gray-text); cursor: pointer; font-family: var(--font-body); text-decoration: underline; padding: 4px; }
+.hb-cal-clear-btn:hover { color: var(--dark-text); }
+.hb-cal-done-btn { background: var(--forest); color: #fff; border: none; border-radius: 8px; padding: 10px 22px; font-size: 0.88rem; font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: background 0.2s; }
+.hb-cal-done-btn:hover { background: var(--alpine); }
+/* Contact form inside widget */
+.hb-contact-form { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 4px; }
+.hb-cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.hb-cf-field { display: flex; flex-direction: column; gap: 4px; }
+.hb-cf-field label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+.hb-cf-field input { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-sm); padding: 9px 12px; font-family: var(--font-body); font-size: 0.85rem; color: #fff; outline: none; transition: border-color var(--transition); width: 100%; }
+.hb-cf-field input:focus { border-color: var(--gold); }
+.hb-cf-field input::placeholder { color: rgba(255,255,255,0.25); }
+.hb-cf-submit { width: 100%; background: #25d366; color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; padding: 12px; border: none; border-radius: var(--radius-sm); cursor: pointer; transition: all var(--transition); display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 2px; }
+.hb-cf-submit:hover { background: #1eb85a; transform: translateY(-1px); }
+.hb-cf-submit:disabled { opacity: 0.6; cursor: wait; transform: none; }
+.hb-cf-note { font-size: 0.7rem; color: rgba(255,255,255,0.3); text-align: center; }
 @keyframes checkPop {
   from { transform: scale(0.4); opacity: 0; }
   to   { transform: scale(1);   opacity: 1; }
@@ -1028,8 +1118,8 @@ footer a:hover { color: var(--gold-light); }
     <li><a href="#equipements" onclick="closeMenu()">Équipements</a></li>
     <li><a href="#activites" onclick="closeMenu()">Activités</a></li>
     <li><a href="#avis" onclick="closeMenu()">Avis</a></li>
-    <li><a href="#disponibilites" onclick="closeMenu()">Disponibilités</a></li>
-    <li><a href="#reservation" class="nav-cta-btn" onclick="closeMenu()">Réserver</a></li>
+    <li><a href="#hero" onclick="closeMenu()">Disponibilités</a></li>
+    <li><a href="#hero" class="nav-cta-btn" onclick="closeMenu()">Réserver</a></li>
   </ul>
   <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
     <span></span><span></span><span></span>
@@ -1072,13 +1162,16 @@ footer a:hover { color: var(--gold-light); }
         Vérifier la disponibilité
       </div>
       <div class="hb-fields">
-        <div class="hb-field">
-          <label for="hb-in">Arrivée</label>
-          <input type="date" id="hb-in" aria-label="Date d'arrivée">
-        </div>
-        <div class="hb-field">
-          <label for="hb-out">Départ</label>
-          <input type="date" id="hb-out" aria-label="Date de départ">
+        <div class="hb-date-range" id="hb-date-range" role="group" aria-label="Sélectionner les dates">
+          <div class="hb-dr-field" id="hb-dr-ci" onclick="hbOpenPicker('in')" tabindex="0" role="button" aria-label="Date d'arrivée">
+            <div class="hb-dr-label">Arrivée</div>
+            <div class="hb-dr-value hb-dr-placeholder" id="hb-dr-ci-val">Choisir</div>
+          </div>
+          <div class="hb-dr-sep" aria-hidden="true"></div>
+          <div class="hb-dr-field" id="hb-dr-co" onclick="hbOpenPicker('out')" tabindex="0" role="button" aria-label="Date de départ">
+            <div class="hb-dr-label">Départ</div>
+            <div class="hb-dr-value hb-dr-placeholder" id="hb-dr-co-val">Choisir</div>
+          </div>
         </div>
         <div class="hb-field">
           <label for="hb-guests">Voyageurs</label>
@@ -1455,78 +1548,6 @@ footer a:hover { color: var(--gold-light); }
 </section>
 
 <!-- DISPONIBILITÉS / FUNNEL -->
-<section id="disponibilites" class="section" aria-labelledby="dispo-title">
-  <div class="section-inner">
-    <span class="section-label">Réservation directe</span>
-    <h2 class="section-title" id="dispo-title">Réservez votre séjour<br>en <em>3 étapes</em></h2>
-
-    <div class="funnel-steps" aria-label="Étapes de réservation">
-      <div class="funnel-step"><span class="funnel-num">1</span>Consultez le calendrier</div>
-      <span class="funnel-arrow" aria-hidden="true">›</span>
-      <div class="funnel-step"><span class="funnel-num">2</span>Vérifiez vos dates</div>
-      <span class="funnel-arrow" aria-hidden="true">›</span>
-      <div class="funnel-step"><span class="funnel-num">3</span>Contactez Laurent</div>
-    </div>
-
-    <!-- Étape 1 : Calendrier -->
-    <div class="dispo-block">
-      <div class="dispo-block-tag">Étape 1 — Calendrier des disponibilités</div>
-      <div id="dispo-calendar" class="dispo-calendars">
-        <div class="dispo-msg">Chargement du calendrier…</div>
-      </div>
-      <div class="dispo-legend">
-        <div class="legend-item"><div class="legend-dot legend-dot--available"></div><span>Disponible</span></div>
-        <div class="legend-item"><div class="legend-dot legend-dot--booked"></div><span>Réservé</span></div>
-      </div>
-    </div>
-
-    <!-- Étape 2 : Vérification dates -->
-    <div class="dispo-block">
-      <div class="dispo-block-tag">Étape 2 — Vérifiez vos dates</div>
-      <div class="dispo-checker">
-        <p>Entrez vos dates d'arrivée et de départ pour savoir instantanément si le studio est libre.</p>
-        <div class="dispo-inputs">
-          <div class="date-field">
-            <label for="date-in">Arrivée</label>
-            <input type="date" id="date-in" aria-label="Date d'arrivée">
-          </div>
-          <div class="date-field">
-            <label for="date-out">Départ</label>
-            <input type="date" id="date-out" aria-label="Date de départ">
-          </div>
-          <button class="btn-check" onclick="checkDates()">Vérifier</button>
-        </div>
-        <div id="dispo-result" class="dispo-result" role="alert" aria-live="polite"></div>
-      </div>
-    </div>
-
-    <!-- Étape 3 : Contact direct -->
-    <div class="dispo-cta">
-      <div class="dispo-cta-inner">
-        <div class="dispo-block-tag" style="background:rgba(255,255,255,0.15);">Étape 3 — Réservez directement</div>
-        <div class="saving-badge">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="6.5" cy="6.5" r="2.5" stroke="currentColor" stroke-width="2.2" fill="none"/><circle cx="17.5" cy="17.5" r="2.5" stroke="currentColor" stroke-width="2.2" fill="none"/></svg>
-          Économisez en réservant directement
-        </div>
-        <h3>Vos dates sont libres ?<br><em>Contactez Laurent</em>, pas Airbnb</h3>
-        <p>En passant directement par Laurent, vous économisez les frais de service Airbnb sur le montant total de votre séjour. Il répond rapidement sur WhatsApp.</p>
-        <div class="cta-btns">
-          <a id="btn-whatsapp" href="https://wa.me/33603257679?text=Bonjour%20Laurent%2C%20je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20le%20Studio%20Devoluy." target="_blank" rel="noopener" class="btn-wa" aria-label="Contacter Laurent sur WhatsApp">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-            WhatsApp — Message direct
-          </a>
-          <a href="tel:+33603257679" class="btn-tel" aria-label="Appeler Laurent">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.45 2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.9-.9a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            06 03 25 76 79
-          </a>
-        </div>
-        <p class="cta-note">Vous préférez passer par Airbnb ? <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="#ff5a5f" width="13" height="13" style="vertical-align:middle;margin-right:3px" aria-hidden="true"><path d="M12 2C9.4 7.4 5 10.2 5 14.3c0 3.8 3.1 6.7 7 6.7s7-2.9 7-6.7C19 10.2 14.6 7.4 12 2zm0 11c-1.4 0-2.6-1.1-2.6-2.4 0-1.9 1.7-3.5 2.6-5.4.9 1.9 2.6 3.5 2.6 5.4 0 1.3-1.2 2.4-2.6 2.4z"/></svg>Réserver via Airbnb →</a></p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
 <!-- RÉSERVATION -->
 <section id="reservation" aria-labelledby="resa-title">
   <div class="resa-inner">
@@ -1568,9 +1589,9 @@ footer a:hover { color: var(--gold-light); }
     <span class="footer-sep" aria-hidden="true">·</span>
     <a href="#localisation">Localisation</a>
     <span class="footer-sep" aria-hidden="true">·</span>
-    <a href="#disponibilites">Disponibilités</a>
+    <a href="#hero">Disponibilités</a>
     <span class="footer-sep" aria-hidden="true">·</span>
-    <a href="#reservation">Réserver</a>
+    <a href="#hero">Réserver</a>
   </nav>
   <p>Résidence Le Bois d'Aurouze · Superdévoluy 05250 · Hautes-Alpes</p>
   <p style="margin-top:8px;">
@@ -1582,6 +1603,29 @@ footer a:hover { color: var(--gold-light); }
   </p>
   <p style="margin-top:16px;font-size:0.74rem;">© 2026 Studio Devoluy — Laurent Dalzotto · <a href="#">Mentions légales</a> · <a href="#">Politique de confidentialité</a></p>
 </footer>
+
+<!-- Calendar date range picker overlay -->
+<div class="hb-cal-overlay" id="hb-cal-overlay" onclick="hbOverlayClick(event)" role="dialog" aria-modal="true" aria-label="Sélection des dates">
+  <div class="hb-cal-panel">
+    <div class="hb-cal-head">
+      <div class="hb-cal-hint-text" id="hb-cal-hint-text">Choisissez une date d'arrivée</div>
+      <div class="hb-cal-navs">
+        <button class="hb-cal-nav-btn" id="hb-cal-prev" onclick="hbNavMonth(-1)" aria-label="Mois précédent">‹</button>
+        <button class="hb-cal-nav-btn" id="hb-cal-next" onclick="hbNavMonth(1)" aria-label="Mois suivant">›</button>
+      </div>
+    </div>
+    <div class="hb-cal-months-row" id="hb-cal-months-row"></div>
+    <div class="hb-cal-legend">
+      <div class="hb-cal-legend-item"><div class="hb-cal-legend-dot" style="background:var(--forest-dark)"></div>Sélectionné</div>
+      <div class="hb-cal-legend-item"><div class="hb-cal-legend-dot" style="background:rgba(26,61,40,0.12)"></div>Plage choisie</div>
+      <div class="hb-cal-legend-item"><div class="hb-cal-legend-dot" style="background:#e8e8e8"></div>Réservé</div>
+    </div>
+    <div class="hb-cal-footer">
+      <button class="hb-cal-clear-btn" onclick="hbClearDates()">Effacer les dates</button>
+      <button class="hb-cal-done-btn" onclick="hbClosePicker()">Confirmer</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // Navbar scroll
@@ -1677,7 +1721,6 @@ let calendarLoaded = false;
 
 (async function() {
   const ICAL_URL = 'https://www.airbnb.com/calendar/ical/53531375.ics?t=657c42e7c3194732b17c7ccf7f0b5fcc&locale=fr';
-  const container = document.getElementById('dispo-calendar');
 
   function parseIcal(text) {
     const booked = new Set();
@@ -1696,35 +1739,6 @@ let calendarLoaded = false;
     }
     return booked;
   }
-
-  function renderMonth(year, month, booked) {
-    const today = new Date(); today.setHours(0,0,0,0);
-    const name = new Date(year, month, 1).toLocaleDateString('fr-FR', { month:'long', year:'numeric' });
-    const title = name.charAt(0).toUpperCase() + name.slice(1);
-    const offset = ((new Date(year, month, 1).getDay() + 6) % 7);
-    const days = new Date(year, month+1, 0).getDate();
-    let html = `<div class="cal-month"><div class="cal-month-title">${title}</div><div class="cal-grid">
-      <div class="cal-dow">L</div><div class="cal-dow">M</div><div class="cal-dow">M</div>
-      <div class="cal-dow">J</div><div class="cal-dow">V</div><div class="cal-dow">S</div><div class="cal-dow">D</div>`;
-    for (let i = 0; i < offset; i++) html += '<div class="cal-day cal-day--empty"></div>';
-    for (let d = 1; d <= days; d++) {
-      const dt = new Date(year, month, d);
-      const key = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      let cls = 'cal-day';
-      if (dt < today) cls += ' cal-day--past';
-      else if (booked.has(key)) cls += ' cal-day--booked';
-      else cls += ' cal-day--available';
-      if (dt.getTime() === today.getTime()) cls += ' cal-day--today';
-      html += `<div class="${cls}">${d}</div>`;
-    }
-    html += '</div></div>';
-    return html;
-  }
-
-  const todayStr = new Date().toISOString().slice(0,10);
-  ['date-in','date-out','hb-in','hb-out'].forEach(id => {
-    document.getElementById(id).min = todayStr;
-  });
 
   async function fetchIcal() {
     const timeout = 8000;
@@ -1750,38 +1764,165 @@ let calendarLoaded = false;
   if (text) {
     bookedDates = parseIcal(text);
     calendarLoaded = true;
-    const now = new Date();
-    let html = '';
-    for (let i = 0; i < 3; i++) {
-      const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
-      html += renderMonth(d.getFullYear(), d.getMonth(), bookedDates);
-    }
-    container.innerHTML = html;
   } else {
     calendarLoaded = 'failed';
-    container.innerHTML = '<div class="dispo-msg">Calendrier indisponible — <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener">Voir sur Airbnb →</a></div>';
   }
 })();
 
+// ── DATE RANGE PICKER ──
+let hbCheckin = null;
+let hbCheckout = null;
+let hbPickerMode = null;
+let hbHoverDate = null;
+let hbCalOffset = 0;
+
+function hbDateStr(d) {
+  if (!d) return '';
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function hbFmtShort(d) {
+  return d.toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
+}
+function hbUpdateDisplay() {
+  const ciVal = document.getElementById('hb-dr-ci-val');
+  const coVal = document.getElementById('hb-dr-co-val');
+  if (hbCheckin) { ciVal.textContent = hbFmtShort(hbCheckin); ciVal.classList.remove('hb-dr-placeholder'); }
+  else { ciVal.textContent = 'Choisir'; ciVal.classList.add('hb-dr-placeholder'); }
+  if (hbCheckout) { coVal.textContent = hbFmtShort(hbCheckout); coVal.classList.remove('hb-dr-placeholder'); }
+  else { coVal.textContent = 'Choisir'; coVal.classList.add('hb-dr-placeholder'); }
+}
+function hbOpenPicker(mode) {
+  hbPickerMode = mode;
+  const hint = document.getElementById('hb-cal-hint-text');
+  if (mode === 'in' || !hbCheckin) {
+    hint.textContent = "Choisissez une date d'arrivée";
+  } else {
+    hint.textContent = "Choisissez une date de départ";
+  }
+  hbCalOffset = 0;
+  hbRenderCalendar();
+  document.getElementById('hb-cal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.addEventListener('keydown', hbEscHandler);
+}
+function hbClosePicker() {
+  document.getElementById('hb-cal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  hbPickerMode = null;
+  hbHoverDate = null;
+  document.removeEventListener('keydown', hbEscHandler);
+}
+function hbOverlayClick(e) {
+  if (e.target === document.getElementById('hb-cal-overlay')) hbClosePicker();
+}
+function hbEscHandler(e) { if (e.key === 'Escape') hbClosePicker(); }
+function hbClearDates() {
+  hbCheckin = null; hbCheckout = null; hbHoverDate = null;
+  hbUpdateDisplay();
+  document.getElementById('hb-cal-hint-text').textContent = "Choisissez une date d'arrivée";
+  hbRenderCalendar();
+}
+function hbNavMonth(dir) {
+  const n = hbCalOffset + dir;
+  if (n < 0) return;
+  hbCalOffset = n;
+  hbRenderCalendar();
+}
+function hbOnDayClick(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  const today = new Date(); today.setHours(0,0,0,0);
+  if (d < today || bookedDates.has(dateStr)) return;
+  if (hbPickerMode === 'in' || !hbCheckin || (hbCheckin && hbCheckout)) {
+    hbCheckin = d; hbCheckout = null; hbHoverDate = null;
+    hbPickerMode = 'out';
+    document.getElementById('hb-cal-hint-text').textContent = "Choisissez une date de départ";
+  } else {
+    if (d <= hbCheckin) {
+      hbCheckin = d; hbCheckout = null; hbHoverDate = null;
+      document.getElementById('hb-cal-hint-text').textContent = "Choisissez une date de départ";
+    } else {
+      let blocked = false;
+      for (let dd = new Date(hbCheckin); dd < d; dd.setDate(dd.getDate()+1)) {
+        if (bookedDates.has(hbDateStr(dd))) { blocked = true; break; }
+      }
+      if (blocked) return;
+      hbCheckout = d; hbHoverDate = null; hbPickerMode = null;
+      hbUpdateDisplay();
+      hbRenderCalendar();
+      setTimeout(hbClosePicker, 380);
+      return;
+    }
+  }
+  hbUpdateDisplay();
+  hbRenderCalendar();
+}
+function hbOnDayHover(dateStr) {
+  if (hbPickerMode !== 'out' || !hbCheckin) return;
+  hbHoverDate = dateStr ? new Date(dateStr + 'T12:00:00') : null;
+  hbRenderCalendar();
+}
+function hbRenderCalendar() {
+  const container = document.getElementById('hb-cal-months-row');
+  const prevBtn = document.getElementById('hb-cal-prev');
+  const today = new Date(); today.setHours(0,0,0,0);
+  prevBtn.disabled = hbCalOffset <= 0;
+  const rawEnd = hbCheckout || (hbPickerMode === 'out' ? hbHoverDate : null);
+  const rangeEnd = rawEnd && rawEnd > hbCheckin ? rawEnd : null;
+  let html = '';
+  for (let mi = 0; mi < 2; mi++) {
+    const ref = new Date();
+    const refDate = new Date(ref.getFullYear(), ref.getMonth() + hbCalOffset + mi, 1);
+    const ay = refDate.getFullYear(), am = refDate.getMonth();
+    const name = refDate.toLocaleDateString('fr-FR', { month:'long', year:'numeric' });
+    const title = name.charAt(0).toUpperCase() + name.slice(1);
+    const startDow = ((new Date(ay, am, 1).getDay() + 6) % 7);
+    const daysInMonth = new Date(ay, am+1, 0).getDate();
+    html += `<div class="hb-cal-month"><div class="hb-cal-month-title">${title}</div><div class="hb-cal-grid">`;
+    html += `<div class="hb-cal-dow">L</div><div class="hb-cal-dow">M</div><div class="hb-cal-dow">M</div><div class="hb-cal-dow">J</div><div class="hb-cal-dow">V</div><div class="hb-cal-dow">S</div><div class="hb-cal-dow">D</div>`;
+    for (let i = 0; i < startDow; i++) html += '<div class="hb-cal-day hb-cal-day--empty"></div>';
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dt = new Date(ay, am, d);
+      const key = hbDateStr(dt);
+      const isPast = dt < today;
+      const isBooked = bookedDates.has(key);
+      const isCI = hbCheckin && hbDateStr(hbCheckin) === key;
+      const isCO = hbCheckout && hbDateStr(hbCheckout) === key;
+      const isHoverDay = hbHoverDate && hbDateStr(hbHoverDate) === key && hbPickerMode === 'out' && hbHoverDate > hbCheckin;
+      const isToday = dt.getTime() === today.getTime();
+      const inRange = !!(hbCheckin && rangeEnd && dt > hbCheckin && dt < rangeEnd);
+      const isRangeStart = !!(isCI && rangeEnd);
+      const isRangeEnd = !!(isCO || isHoverDay);
+      let cls = 'hb-cal-day';
+      if (isPast) cls += ' hb-cal-day--past';
+      else if (isBooked) cls += ' hb-cal-day--booked';
+      if (isToday && !isCI && !isCO) cls += ' hb-cal-day--today';
+      if (isCI) cls += ' hb-cal-day--checkin';
+      if (isCO || isHoverDay) cls += ' hb-cal-day--checkout';
+      if (inRange) cls += ' hb-cal-day--range';
+      if (isRangeStart) cls += ' hb-cal-day--range-start';
+      if (isRangeEnd && !isCI) cls += ' hb-cal-day--range-end';
+      const attrs = (!isPast && !isBooked)
+        ? `onclick="hbOnDayClick('${key}')" onmouseenter="hbOnDayHover('${key}')" onmouseleave="hbOnDayHover(null)"`
+        : '';
+      html += `<div class="${cls}" ${attrs}>${d}</div>`;
+    }
+    html += '</div></div>';
+  }
+  container.innerHTML = html;
+}
+
+// ── HERO CHECK ──
 function heroCheck() {
-  const inVal   = document.getElementById('hb-in').value;
-  const outVal  = document.getElementById('hb-out').value;
-  const guests  = parseInt(document.getElementById('hb-guests').value);
-  const result  = document.getElementById('hb-result');
+  const guests = parseInt(document.getElementById('hb-guests').value);
+  const result = document.getElementById('hb-result');
   result.style.display = 'block';
   result.className = 'hb-result';
-
   if (guests >= 5) {
     result.innerHTML = '<div class="hb-err">❌ Le studio accueille <strong>4 personnes maximum</strong>. Réduisez le nombre de voyageurs.</div>';
     return;
   }
-  if (!inVal || !outVal) {
+  if (!hbCheckin || !hbCheckout) {
     result.innerHTML = '<div class="hb-err">Merci de sélectionner vos dates d\'arrivée et de départ.</div>';
-    return;
-  }
-  const arrive = new Date(inVal), depart = new Date(outVal);
-  if (depart <= arrive) {
-    result.innerHTML = '<div class="hb-err">La date de départ doit être après la date d\'arrivée.</div>';
     return;
   }
   if (!calendarLoaded) {
@@ -1789,81 +1930,74 @@ function heroCheck() {
     return;
   }
   if (calendarLoaded === 'failed') {
-    result.innerHTML = `<div class="hb-err">Impossible de vérifier les disponibilités en ce moment. <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener" style="color:var(--gold-light)">Voir sur Airbnb →</a></div>`;
+    result.innerHTML = `<div class="hb-err">Impossible de vérifier les disponibilités. <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener" style="color:var(--gold-light)">Voir sur Airbnb →</a></div>`;
     return;
   }
-
   let conflict = false;
-  for (let d = new Date(arrive); d < depart; d.setDate(d.getDate()+1)) {
-    if (bookedDates.has(d.toISOString().slice(0,10))) { conflict = true; break; }
+  for (let d = new Date(hbCheckin); d < hbCheckout; d.setDate(d.getDate()+1)) {
+    if (bookedDates.has(hbDateStr(d))) { conflict = true; break; }
   }
-
   const s = { day:'numeric', month:'short' };
   const l = { day:'numeric', month:'long', year:'numeric' };
-  const fmtIn  = arrive.toLocaleDateString('fr-FR', s);
-  const fmtOut = depart.toLocaleDateString('fr-FR', s);
-  const nights = Math.round((depart - arrive) / 86400000);
-
+  const fmtIn  = hbCheckin.toLocaleDateString('fr-FR', s);
+  const fmtOut = hbCheckout.toLocaleDateString('fr-FR', s);
+  const nights = Math.round((hbCheckout - hbCheckin) / 86400000);
   if (conflict) {
-    result.innerHTML = `<div class="hb-err">❌ Ces dates sont déjà réservées. Essayez d'autres dates ou <a href="#disponibilites">consultez le calendrier →</a></div>`;
+    result.innerHTML = `<div class="hb-err">❌ Ces dates sont déjà réservées. Essayez d'autres dates.</div>`;
     return;
   }
-
-  const msg = `Bonjour Laurent, je souhaite réserver le Studio Devoluy du ${arrive.toLocaleDateString('fr-FR', l)} au ${depart.toLocaleDateString('fr-FR', l)} pour ${guests} personne${guests > 1 ? 's' : ''} (${nights} nuit${nights > 1 ? 's' : ''}). Ces dates sont-elles disponibles ?`;
+  const msgWa = `Bonjour Laurent, je souhaite réserver le Studio Devoluy du ${hbCheckin.toLocaleDateString('fr-FR', l)} au ${hbCheckout.toLocaleDateString('fr-FR', l)} pour ${guests} personne${guests > 1 ? 's' : ''} (${nights} nuit${nights > 1 ? 's' : ''}). Ces dates sont-elles disponibles ?`;
+  window._hbWaUrl = 'https://wa.me/33603257679?text=' + encodeURIComponent(msgWa);
   result.innerHTML = `
     <div class="hb-ok">
       <div class="hb-check-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></div>
       <div class="hb-ok-label">Disponible !</div>
       <div class="hb-ok-dates">${fmtIn} → ${fmtOut}</div>
       <div class="hb-ok-meta">${nights} nuit${nights > 1 ? 's' : ''} · ${guests} voyageur${guests > 1 ? 's' : ''}</div>
-      <a href="https://wa.me/33603257679?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener" class="hb-wa">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-        Contacter Laurent — Économiser les frais
-      </a>
+      <div class="hb-contact-form">
+        <div class="hb-cf-row">
+          <div class="hb-cf-field"><label for="hb-prenom">Prénom</label><input type="text" id="hb-prenom" placeholder="Jean" autocomplete="given-name"></div>
+          <div class="hb-cf-field"><label for="hb-nom">Nom</label><input type="text" id="hb-nom" placeholder="Dupont" autocomplete="family-name"></div>
+        </div>
+        <div class="hb-cf-field"><label for="hb-email">Email</label><input type="email" id="hb-email" placeholder="jean@email.com" autocomplete="email"></div>
+        <div class="hb-cf-field"><label for="hb-tel">Téléphone</label><input type="tel" id="hb-tel" placeholder="06 00 00 00 00" autocomplete="tel"></div>
+        <button class="hb-cf-submit" onclick="hbSubmitContact(this)">
+          <svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          <svg viewBox="0 0 32 32" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M16 0C9.6 13.4 4 17.8 4 23.2 4 28.1 9.4 32 16 32s12-3.9 12-8.8C28 17.8 22.4 13.4 16 0zm0 18.7c-2.4 0-4.4-1.9-4.4-4.2 0-3.2 2.9-5.9 4.4-9.1 1.5 3.2 4.4 5.9 4.4 9.1 0 2.3-2 4.2-4.4 4.2z"/></svg>
+          Contacter Laurent · Économiser les frais Airbnb
+        </button>
+        <p class="hb-cf-note">Vos informations sont transmises uniquement à Laurent.</p>
+      </div>
     </div>`;
 }
 
-function checkDates() {
-  const inVal  = document.getElementById('date-in').value;
-  const outVal = document.getElementById('date-out').value;
-  const result = document.getElementById('dispo-result');
+const GOOGLE_SCRIPT_URL = '';
 
-  if (!inVal || !outVal) {
-    result.className = 'dispo-result nok';
-    result.textContent = 'Merci de sélectionner une date d\'arrivée et une date de départ.';
-    result.style.display = 'block';
+async function hbSubmitContact(btn) {
+  const prenom = (document.getElementById('hb-prenom')?.value || '').trim();
+  const nom    = (document.getElementById('hb-nom')?.value || '').trim();
+  const email  = (document.getElementById('hb-email')?.value || '').trim();
+  const tel    = (document.getElementById('hb-tel')?.value || '').trim();
+  if (!prenom || !nom || !email || !tel) {
+    alert('Merci de remplir tous les champs avant de continuer.');
     return;
   }
-  const arrive = new Date(inVal);
-  const depart = new Date(outVal);
-  if (depart <= arrive) {
-    result.className = 'dispo-result nok';
-    result.textContent = 'La date de départ doit être après la date d\'arrivée.';
-    result.style.display = 'block';
-    return;
+  window.open(window._hbWaUrl, '_blank', 'noopener');
+  if (GOOGLE_SCRIPT_URL) {
+    if (btn) { btn.disabled = true; btn.textContent = 'Envoi…'; }
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prenom, nom, email, tel,
+          dates: `${hbCheckin?.toLocaleDateString('fr-FR')} → ${hbCheckout?.toLocaleDateString('fr-FR')}`,
+          guests: document.getElementById('hb-guests').value,
+          ts: new Date().toISOString()
+        })
+      });
+    } catch(_) {}
   }
-
-  let conflict = false;
-  for (let d = new Date(arrive); d < depart; d.setDate(d.getDate()+1)) {
-    if (bookedDates.has(d.toISOString().slice(0,10))) { conflict = true; break; }
-  }
-
-  const fmtOpts = { day:'numeric', month:'long', year:'numeric' };
-  const fmtIn  = arrive.toLocaleDateString('fr-FR', fmtOpts);
-  const fmtOut = depart.toLocaleDateString('fr-FR', fmtOpts);
-  const nights = Math.round((depart - arrive) / 86400000);
-
-  if (conflict) {
-    result.className = 'dispo-result nok';
-    result.textContent = `❌ Ces dates (${fmtIn} → ${fmtOut}) sont malheureusement déjà réservées. Essayez d'autres dates.`;
-  } else {
-    result.className = 'dispo-result ok';
-    result.innerHTML = `✅ <strong>Le studio est disponible du ${fmtIn} au ${fmtOut}</strong> (${nights} nuit${nights > 1 ? 's' : ''}).<br>👇 Contactez Laurent directement ci-dessous — vous économisez les frais de service par rapport à Airbnb.`;
-    const msg = `Bonjour Laurent, je suis intéressé(e) par le Studio Devoluy du ${fmtIn} au ${fmtOut} (${nights} nuit${nights > 1 ? 's' : ''}). Ces dates sont-elles disponibles ?`;
-    document.getElementById('btn-whatsapp').href = 'https://wa.me/33603257679?text=' + encodeURIComponent(msg);
-  }
-  result.style.display = 'block';
-  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 // Fade-in on scroll
