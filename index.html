@@ -355,24 +355,24 @@ a { text-decoration: none; color: inherit; }
   font-size: 0.82rem; color: #ffaaaa; line-height: 1.55;
 }
 .hb-err a { color: var(--gold-light); }
-/* Date range picker */
-.hb-date-range {
-  display: flex; align-items: stretch;
+/* Date button (single) */
+.hb-date-btn {
+  display: flex; align-items: center; gap: 12px;
   border: 1.5px solid rgba(255,255,255,0.2); border-radius: var(--radius-sm);
-  background: rgba(255,255,255,0.06); cursor: pointer; overflow: hidden;
-  transition: border-color var(--transition);
+  background: rgba(255,255,255,0.06); cursor: pointer; padding: 12px 14px;
+  transition: border-color var(--transition); width: 100;
 }
-.hb-date-range:hover { border-color: rgba(255,255,255,0.35); }
-.hb-date-range.hb-dr-active { border-color: var(--gold); }
-.hb-dr-field {
-  flex: 1; padding: 10px 14px; display: flex; flex-direction: column; gap: 3px;
-  transition: background var(--transition); min-width: 0;
-}
-.hb-dr-field:hover { background: rgba(255,255,255,0.07); }
-.hb-dr-sep { width: 1px; background: rgba(255,255,255,0.13); flex-shrink: 0; margin: 8px 0; }
-.hb-dr-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
-.hb-dr-value { font-size: 0.88rem; color: #fff; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hb-dr-placeholder { color: rgba(255,255,255,0.32) !important; font-weight: 400 !important; }
+.hb-date-btn:hover { border-color: rgba(255,255,255,0.38); }
+.hb-date-btn.active { border-color: var(--gold); }
+.hb-date-btn-icon { flex-shrink: 0; opacity: 0.55; }
+.hb-date-btn-icon svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 1.8; }
+.hb-date-btn-body { flex: 1; min-width: 0; }
+.hb-date-btn-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 3px; }
+.hb-date-btn-value { font-size: 0.9rem; color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hb-date-btn-value.hb-date-placeholder { color: rgba(255,255,255,0.32); font-weight: 400; }
+.hb-date-chips { display: flex; align-items: center; gap: 6px; }
+.hb-chip { background: rgba(201,168,76,0.18); border: 1px solid rgba(201,168,76,0.35); border-radius: 20px; padding: 2px 10px; font-size: 0.82rem; font-weight: 600; color: var(--gold-light); }
+.hb-chip-arrow { color: rgba(255,255,255,0.4); font-size: 0.9rem; }
 /* Calendar popup overlay */
 .hb-cal-overlay {
   position: fixed; inset: 0; z-index: 9000;
@@ -432,8 +432,7 @@ a { text-decoration: none; color: inherit; }
 .hb-cal-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
 .hb-cal-clear-btn { background: none; border: none; font-size: 0.82rem; font-weight: 700; color: var(--gray-text); cursor: pointer; font-family: var(--font-body); text-decoration: underline; padding: 4px; }
 .hb-cal-clear-btn:hover { color: var(--dark-text); }
-.hb-cal-done-btn { background: var(--forest); color: #fff; border: none; border-radius: 8px; padding: 10px 22px; font-size: 0.88rem; font-weight: 700; cursor: pointer; font-family: var(--font-body); transition: background 0.2s; }
-.hb-cal-done-btn:hover { background: var(--alpine); }
+.hb-cal-months-row { -webkit-user-select: none; user-select: none; }
 /* Contact form inside widget */
 .hb-contact-form { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 4px; }
 .hb-cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -1163,15 +1162,11 @@ footer a:hover { color: var(--gold-light); }
         Vérifier la disponibilité
       </div>
       <div class="hb-fields">
-        <div class="hb-date-range" id="hb-date-range" role="group" aria-label="Sélectionner les dates">
-          <div class="hb-dr-field" id="hb-dr-ci" onclick="hbOpenPicker('in')" tabindex="0" role="button" aria-label="Date d'arrivée">
-            <div class="hb-dr-label">Arrivée</div>
-            <div class="hb-dr-value hb-dr-placeholder" id="hb-dr-ci-val">Choisir</div>
-          </div>
-          <div class="hb-dr-sep" aria-hidden="true"></div>
-          <div class="hb-dr-field" id="hb-dr-co" onclick="hbOpenPicker('out')" tabindex="0" role="button" aria-label="Date de départ">
-            <div class="hb-dr-label">Départ</div>
-            <div class="hb-dr-value hb-dr-placeholder" id="hb-dr-co-val">Choisir</div>
+        <div class="hb-date-btn" id="hb-date-btn" onclick="hbOpenPicker()" tabindex="0" role="button" aria-label="Sélectionner les dates du séjour">
+          <div class="hb-date-btn-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div class="hb-date-btn-body">
+            <div class="hb-date-btn-label">Dates du séjour</div>
+            <div class="hb-date-btn-value hb-date-placeholder" id="hb-date-btn-value">Choisir vos dates</div>
           </div>
         </div>
         <div class="hb-field">
@@ -1607,9 +1602,9 @@ footer a:hover { color: var(--gold-light); }
 
 <!-- Calendar date range picker overlay -->
 <div class="hb-cal-overlay" id="hb-cal-overlay" onclick="hbOverlayClick(event)" role="dialog" aria-modal="true" aria-label="Sélection des dates">
-  <div class="hb-cal-panel">
+  <div class="hb-cal-panel" ontouchstart="hbTouchStart(event)" ontouchmove="hbTouchMove(event)" ontouchend="hbTouchEnd(event)">
     <div class="hb-cal-head">
-      <div class="hb-cal-hint-text" id="hb-cal-hint-text">Choisissez une date d'arrivée</div>
+      <div class="hb-cal-hint-text" id="hb-cal-hint-text">Sélectionnez votre date d'arrivée</div>
       <div class="hb-cal-navs">
         <button class="hb-cal-nav-btn" id="hb-cal-prev" onclick="hbNavMonth(-1)" aria-label="Année précédente">‹ Année préc.</button>
         <button class="hb-cal-nav-btn" id="hb-cal-next" onclick="hbNavMonth(1)" aria-label="Année suivante">Année suiv. ›</button>
@@ -1623,7 +1618,7 @@ footer a:hover { color: var(--gold-light); }
     </div>
     <div class="hb-cal-footer">
       <button class="hb-cal-clear-btn" onclick="hbClearDates()">Effacer les dates</button>
-      <button class="hb-cal-done-btn" onclick="hbClosePicker()">Confirmer</button>
+      <button class="hb-cal-clear-btn" onclick="hbClosePicker()" style="color:var(--forest);text-decoration:none;font-weight:700">✕ Fermer</button>
     </div>
   </div>
 </div>
@@ -1784,33 +1779,42 @@ function hbDateStr(d) {
 function hbFmtShort(d) {
   return d.toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
 }
+let hbDragging = false;
+let hbDragStart = null;
+
 function hbUpdateDisplay() {
-  const ciVal = document.getElementById('hb-dr-ci-val');
-  const coVal = document.getElementById('hb-dr-co-val');
-  if (hbCheckin) { ciVal.textContent = hbFmtShort(hbCheckin); ciVal.classList.remove('hb-dr-placeholder'); }
-  else { ciVal.textContent = 'Choisir'; ciVal.classList.add('hb-dr-placeholder'); }
-  if (hbCheckout) { coVal.textContent = hbFmtShort(hbCheckout); coVal.classList.remove('hb-dr-placeholder'); }
-  else { coVal.textContent = 'Choisir'; coVal.classList.add('hb-dr-placeholder'); }
-}
-function hbOpenPicker(mode) {
-  hbPickerMode = mode;
-  const hint = document.getElementById('hb-cal-hint-text');
-  if (mode === 'in' || !hbCheckin) {
-    hint.textContent = "Choisissez une date d'arrivée";
+  const el = document.getElementById('hb-date-btn-value');
+  if (hbCheckin && hbCheckout) {
+    el.textContent = hbFmtShort(hbCheckin) + '  →  ' + hbFmtShort(hbCheckout);
+    el.classList.remove('hb-date-placeholder');
+  } else if (hbCheckin) {
+    el.textContent = hbFmtShort(hbCheckin) + '  →  ?';
+    el.classList.remove('hb-date-placeholder');
   } else {
-    hint.textContent = "Choisissez une date de départ";
+    el.textContent = 'Choisir vos dates';
+    el.classList.add('hb-date-placeholder');
   }
+}
+function hbOpenPicker() {
+  hbPickerMode = 'in';
+  document.getElementById('hb-cal-hint-text').textContent = hbCheckin
+    ? "Glissez ou cliquez la date de départ"
+    : "Sélectionnez votre date d'arrivée";
   hbCalOffset = 0;
   hbRenderCalendar();
   document.getElementById('hb-cal-overlay').classList.add('open');
+  document.getElementById('hb-date-btn').classList.add('active');
   document.body.style.overflow = 'hidden';
   document.addEventListener('keydown', hbEscHandler);
 }
 function hbClosePicker() {
   document.getElementById('hb-cal-overlay').classList.remove('open');
+  document.getElementById('hb-date-btn').classList.remove('active');
   document.body.style.overflow = '';
   hbPickerMode = null;
   hbHoverDate = null;
+  hbDragging = false;
+  hbDragStart = null;
   document.removeEventListener('keydown', hbEscHandler);
 }
 function hbOverlayClick(e) {
@@ -1820,7 +1824,8 @@ function hbEscHandler(e) { if (e.key === 'Escape') hbClosePicker(); }
 function hbClearDates() {
   hbCheckin = null; hbCheckout = null; hbHoverDate = null;
   hbUpdateDisplay();
-  document.getElementById('hb-cal-hint-text').textContent = "Choisissez une date d'arrivée";
+  document.getElementById('hb-cal-hint-text').textContent = "Sélectionnez votre date d'arrivée";
+  hbPickerMode = 'in';
   hbRenderCalendar();
 }
 function hbNavMonth(dir) {
@@ -1829,46 +1834,92 @@ function hbNavMonth(dir) {
   hbCalOffset = n;
   hbRenderCalendar();
 }
-function hbOnDayClick(dateStr) {
+
+function hbDayIsValid(dateStr) {
   const d = new Date(dateStr + 'T12:00:00');
   const today = new Date(); today.setHours(0,0,0,0);
-  if (d < today || bookedDates.has(dateStr)) return;
-  if (hbPickerMode === 'in' || !hbCheckin || (hbCheckin && hbCheckout)) {
-    hbCheckin = d; hbCheckout = null; hbHoverDate = null;
-    hbPickerMode = 'out';
-    document.getElementById('hb-cal-hint-text').textContent = "Choisissez une date de départ";
-  } else {
-    if (d <= hbCheckin) {
-      hbCheckin = d; hbCheckout = null; hbHoverDate = null;
-      document.getElementById('hb-cal-hint-text').textContent = "Choisissez une date de départ";
-    } else {
-      let blocked = false;
-      for (let dd = new Date(hbCheckin); dd < d; dd.setDate(dd.getDate()+1)) {
-        if (bookedDates.has(hbDateStr(dd))) { blocked = true; break; }
-      }
-      if (blocked) return;
-      hbCheckout = d; hbHoverDate = null; hbPickerMode = null;
-      hbUpdateDisplay();
-      hbRenderCalendar();
-      setTimeout(hbClosePicker, 380);
-      return;
-    }
+  return d >= today && !bookedDates.has(dateStr);
+}
+function hbConfirmCheckout(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  if (!hbCheckin || d <= hbCheckin) return false;
+  let blocked = false;
+  for (let dd = new Date(hbCheckin); dd < d; dd.setDate(dd.getDate()+1)) {
+    if (bookedDates.has(hbDateStr(dd))) { blocked = true; break; }
   }
+  if (blocked) return false;
+  hbCheckout = d; hbHoverDate = null; hbPickerMode = null;
   hbUpdateDisplay();
   hbRenderCalendar();
+  setTimeout(hbClosePicker, 300);
+  return true;
 }
-function hbOnDayHover(dateStr) {
-  if (hbPickerMode !== 'out' || !hbCheckin) return;
-  hbHoverDate = dateStr ? new Date(dateStr + 'T12:00:00') : null;
+
+// Mouse handlers
+function hbOnDayDown(dateStr) {
+  if (!hbDayIsValid(dateStr)) return;
+  hbDragging = true;
+  hbDragStart = dateStr;
+  if (!hbCheckin || hbCheckout || hbPickerMode !== 'out') {
+    // Start fresh: set checkin
+    hbCheckin = new Date(dateStr + 'T12:00:00');
+    hbCheckout = null; hbHoverDate = null;
+    hbPickerMode = 'out';
+    document.getElementById('hb-cal-hint-text').textContent = "Glissez ou cliquez la date de départ";
+    hbUpdateDisplay();
+    hbRenderCalendar();
+  }
+}
+function hbOnDayEnter(dateStr) {
+  if (!hbCheckin || hbPickerMode !== 'out') return;
+  if (!hbDayIsValid(dateStr)) { hbHoverDate = null; hbRenderCalendar(); return; }
+  const d = new Date(dateStr + 'T12:00:00');
+  hbHoverDate = d > hbCheckin ? d : null;
   hbRenderCalendar();
 }
+function hbOnDayUp(dateStr) {
+  if (!hbDragging) return;
+  hbDragging = false;
+  if (dateStr === hbDragStart) {
+    // Tap on same cell → just set checkin, stay open
+    hbPickerMode = 'out';
+    return;
+  }
+  if (hbDayIsValid(dateStr) && hbCheckin) {
+    hbConfirmCheckout(dateStr);
+  }
+  hbDragStart = null;
+}
+
+// Touch handlers (read data-date from elements)
+function hbTouchStart(event) {
+  const el = event.target.closest('[data-date]');
+  if (el) { event.preventDefault(); hbOnDayDown(el.dataset.date); }
+}
+function hbTouchMove(event) {
+  event.preventDefault();
+  const t = event.touches[0];
+  const el = document.elementFromPoint(t.clientX, t.clientY)?.closest('[data-date]');
+  if (el && hbDragging) hbOnDayEnter(el.dataset.date);
+}
+function hbTouchEnd(event) {
+  event.preventDefault();
+  const t = event.changedTouches[0];
+  const el = document.elementFromPoint(t.clientX, t.clientY)?.closest('[data-date]');
+  hbOnDayUp(el?.dataset?.date || hbDragStart);
+}
+
+// Global mouseup (drag released outside a day cell)
+document.addEventListener('mouseup', () => {
+  if (hbDragging) { hbDragging = false; hbDragStart = null; }
+});
 function hbRenderCalendar() {
   const container = document.getElementById('hb-cal-months-row');
   const prevBtn = document.getElementById('hb-cal-prev');
   const today = new Date(); today.setHours(0,0,0,0);
   prevBtn.disabled = hbCalOffset <= 0;
-  const rawEnd = hbCheckout || (hbPickerMode === 'out' ? hbHoverDate : null);
-  const rangeEnd = rawEnd && rawEnd > hbCheckin ? rawEnd : null;
+  const rawEnd = hbCheckout || ((hbPickerMode === 'out' || hbDragging) ? hbHoverDate : null);
+  const rangeEnd = rawEnd && hbCheckin && rawEnd > hbCheckin ? rawEnd : null;
   let html = '';
   for (let mi = 0; mi < 12; mi++) {
     const ref = new Date();
@@ -1888,7 +1939,7 @@ function hbRenderCalendar() {
       const isBooked = bookedDates.has(key);
       const isCI = hbCheckin && hbDateStr(hbCheckin) === key;
       const isCO = hbCheckout && hbDateStr(hbCheckout) === key;
-      const isHoverDay = hbHoverDate && hbDateStr(hbHoverDate) === key && hbPickerMode === 'out' && hbHoverDate > hbCheckin;
+      const isHoverDay = hbHoverDate && hbDateStr(hbHoverDate) === key && (hbPickerMode === 'out' || hbDragging) && hbHoverDate > hbCheckin;
       const isToday = dt.getTime() === today.getTime();
       const inRange = !!(hbCheckin && rangeEnd && dt > hbCheckin && dt < rangeEnd);
       const isRangeStart = !!(isCI && rangeEnd);
@@ -1903,7 +1954,7 @@ function hbRenderCalendar() {
       if (isRangeStart) cls += ' hb-cal-day--range-start';
       if (isRangeEnd && !isCI) cls += ' hb-cal-day--range-end';
       const attrs = (!isPast && !isBooked)
-        ? `onclick="hbOnDayClick('${key}')" onmouseenter="hbOnDayHover('${key}')" onmouseleave="hbOnDayHover(null)"`
+        ? `data-date="${key}" onmousedown="hbOnDayDown('${key}')" onmouseenter="hbOnDayEnter('${key}')" onmouseup="hbOnDayUp('${key}')"`
         : '';
       html += `<div class="${cls}" ${attrs}>${d}</div>`;
     }
