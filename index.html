@@ -249,9 +249,9 @@ a { text-decoration: none; color: inherit; }
 /* ── HERO ── */
 #hero {
   min-height: 100vh;
-  background: linear-gradient(-45deg, #050e07, #091a0d, #0d2415, #071510, #040c07);
-  background-size: 400% 400%;
-  animation: gradientFlow 18s ease infinite;
+  background:
+    linear-gradient(160deg, rgba(5,14,7,0.82) 0%, rgba(13,36,21,0.68) 50%, rgba(5,14,7,0.88) 100%),
+    url('IMG-20260426-WA0006.jpg') center / cover no-repeat;
   position: relative; display: flex; align-items: center;
   overflow: hidden; padding: 120px 6% 80px;
 }
@@ -1061,7 +1061,7 @@ footer a:hover { color: var(--gold-light); }
       <div class="hero-actions">
         <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener" class="btn-primary" aria-label="Voir les disponibilités sur Airbnb">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-          Voir les disponibilités
+          Voir les disponibilités sur Airbnb
         </a>
         <a href="#studio" class="btn-ghost">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 9l-7 7-7-7"/></svg>
@@ -1096,7 +1096,6 @@ footer a:hover { color: var(--gold-light); }
             <option value="2">2 voyageurs</option>
             <option value="3">3 voyageurs</option>
             <option value="4">4 voyageurs</option>
-            <option value="5">5 voyageurs ou plus</option>
           </select>
         </div>
       </div>
