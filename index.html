@@ -1739,6 +1739,7 @@ let calendarLoaded = false;
       } catch(e) { clearTimeout(t); return null; }
     };
     return (
+      await tryFetch('/calendar.ics', false) ||
       await tryFetch('https://corsproxy.io/?' + encodeURIComponent(ICAL_URL), false) ||
       await tryFetch('https://api.allorigins.win/get?url=' + encodeURIComponent(ICAL_URL), true) ||
       null
