@@ -465,6 +465,52 @@ a { text-decoration: none; color: inherit; }
   .studio-cards { grid-template-columns: 1fr 1fr; }
 }
 
+/* ── DISPONIBILITÉS ── */
+#disponibilites { background: var(--snow); }
+.dispo-calendars {
+  display: flex; gap: 24px; flex-wrap: wrap;
+  margin-top: 48px; justify-content: center;
+}
+.cal-month {
+  background: var(--white); border-radius: var(--radius);
+  padding: 24px; box-shadow: var(--shadow);
+  border: 1px solid rgba(45,90,61,0.08);
+  flex: 1; min-width: 260px; max-width: 340px;
+}
+.cal-month-title {
+  font-family: var(--font-head); font-weight: 600; font-size: 1rem;
+  color: var(--dark-text); text-align: center; margin-bottom: 16px;
+}
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
+}
+.cal-dow {
+  text-align: center; font-size: 0.68rem; font-weight: 600;
+  color: var(--gray-text); padding: 4px 0; letter-spacing: 0.04em;
+}
+.cal-day {
+  text-align: center; font-size: 0.8rem; padding: 7px 2px;
+  border-radius: 7px; line-height: 1;
+}
+.cal-day--available { color: var(--dark-text); background: rgba(45,90,61,0.07); }
+.cal-day--booked { color: rgba(90,114,103,0.35); background: rgba(210,210,210,0.45); text-decoration: line-through; }
+.cal-day--today { font-weight: 700; outline: 2px solid var(--gold); outline-offset: -2px; }
+.cal-day--past { color: rgba(90,114,103,0.3); background: none; }
+.cal-day--empty { background: none; }
+.dispo-legend {
+  display: flex; gap: 24px; justify-content: center;
+  margin-top: 28px; flex-wrap: wrap;
+}
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--gray-text); }
+.legend-dot { width: 14px; height: 14px; border-radius: 4px; }
+.legend-dot--available { background: rgba(45,90,61,0.15); }
+.legend-dot--booked { background: rgba(210,210,210,0.8); }
+.dispo-msg {
+  text-align: center; padding: 40px 20px;
+  font-size: 0.9rem; color: var(--gray-text);
+}
+.dispo-msg a { color: var(--alpine); font-weight: 500; }
+
 /* ── ÉQUIPEMENTS ── */
 #equipements { background: var(--snow); }
 .equip-grid {
@@ -800,6 +846,7 @@ footer a:hover { color: var(--gold-light); }
     <li><a href="#equipements" onclick="closeMenu()">Équipements</a></li>
     <li><a href="#activites" onclick="closeMenu()">Activités</a></li>
     <li><a href="#avis" onclick="closeMenu()">Avis</a></li>
+    <li><a href="#disponibilites" onclick="closeMenu()">Disponibilités</a></li>
     <li><a href="#reservation" class="nav-cta-btn" onclick="closeMenu()">Réserver</a></li>
   </ul>
   <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
@@ -1228,6 +1275,22 @@ footer a:hover { color: var(--gold-light); }
   </div>
 </section>
 
+<!-- DISPONIBILITÉS -->
+<section id="disponibilites" class="section" aria-labelledby="dispo-title">
+  <div class="section-inner">
+    <span class="section-label">Calendrier en temps réel</span>
+    <h2 class="section-title" id="dispo-title">Quand le <em>studio</em><br>est disponible ?</h2>
+    <p class="section-lead">Les dates grisées sont déjà réservées sur Airbnb. Pour réserver, contactez Laurent directement ou passez par Airbnb.</p>
+    <div id="dispo-calendar" class="dispo-calendars">
+      <div class="dispo-msg">Chargement du calendrier…</div>
+    </div>
+    <div class="dispo-legend">
+      <div class="legend-item"><div class="legend-dot legend-dot--available"></div><span>Disponible</span></div>
+      <div class="legend-item"><div class="legend-dot legend-dot--booked"></div><span>Réservé</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- RÉSERVATION -->
 <section id="reservation" aria-labelledby="resa-title">
   <div class="resa-inner">
@@ -1268,6 +1331,8 @@ footer a:hover { color: var(--gold-light); }
     <a href="#activites">Activités</a>
     <span class="footer-sep" aria-hidden="true">·</span>
     <a href="#localisation">Localisation</a>
+    <span class="footer-sep" aria-hidden="true">·</span>
+    <a href="#disponibilites">Disponibilités</a>
     <span class="footer-sep" aria-hidden="true">·</span>
     <a href="#reservation">Réserver</a>
   </nav>
@@ -1369,6 +1434,73 @@ document.addEventListener('keydown', (e) => {
 document.querySelectorAll('.galerie-item').forEach((el, i) => {
   el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') openLightbox(i); });
 });
+
+// Calendrier disponibilités iCal Airbnb
+(async function() {
+  const ICAL_URL = 'https://www.airbnb.com/calendar/ical/53531375.ics?t=657c42e7c3194732b17c7ccf7f0b5fcc&locale=fr';
+  const container = document.getElementById('dispo-calendar');
+
+  function parseIcal(text) {
+    const booked = new Set();
+    const re = /BEGIN:VEVENT([\s\S]*?)END:VEVENT/g;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      const blk = m[1];
+      const s = (blk.match(/DTSTART[^:]*:(\d{8})/) || [])[1];
+      const e = (blk.match(/DTEND[^:]*:(\d{8})/) || [])[1];
+      if (!s || !e) continue;
+      const start = new Date(+s.slice(0,4), +s.slice(4,6)-1, +s.slice(6,8));
+      const end   = new Date(+e.slice(0,4), +e.slice(4,6)-1, +e.slice(6,8));
+      for (let d = new Date(start); d < end; d.setDate(d.getDate()+1)) {
+        booked.add(d.toISOString().slice(0,10));
+      }
+    }
+    return booked;
+  }
+
+  function renderMonth(year, month, booked) {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const name = new Date(year, month, 1)
+      .toLocaleDateString('fr-FR', { month:'long', year:'numeric' });
+    const title = name.charAt(0).toUpperCase() + name.slice(1);
+    const firstDow = new Date(year, month, 1).getDay();
+    const offset = (firstDow === 0 ? 6 : firstDow - 1);
+    const days = new Date(year, month+1, 0).getDate();
+    let html = `<div class="cal-month"><div class="cal-month-title">${title}</div><div class="cal-grid">
+      <div class="cal-dow">L</div><div class="cal-dow">M</div><div class="cal-dow">M</div>
+      <div class="cal-dow">J</div><div class="cal-dow">V</div><div class="cal-dow">S</div><div class="cal-dow">D</div>`;
+    for (let i = 0; i < offset; i++) html += '<div class="cal-day cal-day--empty"></div>';
+    for (let d = 1; d <= days; d++) {
+      const dt = new Date(year, month, d);
+      const key = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      let cls = 'cal-day';
+      if (dt < today) cls += ' cal-day--past';
+      else if (booked.has(key)) cls += ' cal-day--booked';
+      else cls += ' cal-day--available';
+      if (dt.getTime() === today.getTime()) cls += ' cal-day--today';
+      html += `<div class="${cls}">${d}</div>`;
+    }
+    html += '</div></div>';
+    return html;
+  }
+
+  try {
+    const proxy = 'https://corsproxy.io/?' + encodeURIComponent(ICAL_URL);
+    const resp = await fetch(proxy);
+    if (!resp.ok) throw new Error('fetch failed');
+    const text = await resp.text();
+    const booked = parseIcal(text);
+    const now = new Date();
+    let html = '';
+    for (let i = 0; i < 3; i++) {
+      const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+      html += renderMonth(d.getFullYear(), d.getMonth(), booked);
+    }
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = '<div class="dispo-msg">Calendrier indisponible pour le moment — <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener">Voir les disponibilités sur Airbnb →</a></div>';
+  }
+})();
 
 // Fade-in on scroll
 const observer = new IntersectionObserver((entries) => {
