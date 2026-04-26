@@ -1,0 +1,29 @@
+name: Sync Airbnb Calendar
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch iCal from Airbnb
+        run: |
+          curl -s --max-time 30 \
+            "https://www.airbnb.com/calendar/ical/53531375.ics?t=657c42e7c3194732b17c7ccf7f0b5fcc&locale=fr" \
+            -o calendar.ics
+
+      - name: Commit if changed
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git add calendar.ics
+          git diff --staged --quiet || git commit -m "chore: sync Airbnb calendar [skip ci]"
+          git push
