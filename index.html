@@ -1726,11 +1726,27 @@ let calendarLoaded = false;
     document.getElementById(id).min = todayStr;
   });
 
-  try {
-    const proxy = 'https://corsproxy.io/?' + encodeURIComponent(ICAL_URL);
-    const resp = await fetch(proxy);
-    if (!resp.ok) throw new Error();
-    const text = await resp.text();
+  async function fetchIcal() {
+    const timeout = 8000;
+    const tryFetch = async (url, json) => {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), timeout);
+      try {
+        const r = await fetch(url, { signal: ctrl.signal });
+        clearTimeout(t);
+        if (!r.ok) return null;
+        return json ? (await r.json()).contents : await r.text();
+      } catch(e) { clearTimeout(t); return null; }
+    };
+    return (
+      await tryFetch('https://corsproxy.io/?' + encodeURIComponent(ICAL_URL), false) ||
+      await tryFetch('https://api.allorigins.win/get?url=' + encodeURIComponent(ICAL_URL), true) ||
+      null
+    );
+  }
+
+  const text = await fetchIcal();
+  if (text) {
     bookedDates = parseIcal(text);
     calendarLoaded = true;
     const now = new Date();
@@ -1740,7 +1756,8 @@ let calendarLoaded = false;
       html += renderMonth(d.getFullYear(), d.getMonth(), bookedDates);
     }
     container.innerHTML = html;
-  } catch(e) {
+  } else {
+    calendarLoaded = 'failed';
     container.innerHTML = '<div class="dispo-msg">Calendrier indisponible — <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener">Voir sur Airbnb →</a></div>';
   }
 })();
@@ -1767,7 +1784,11 @@ function heroCheck() {
     return;
   }
   if (!calendarLoaded) {
-    result.innerHTML = '<div class="hb-err">Calendrier en cours de chargement, réessayez dans un instant…</div>';
+    result.innerHTML = '<div class="hb-err">Le calendrier charge encore, réessayez dans quelques secondes…</div>';
+    return;
+  }
+  if (calendarLoaded === 'failed') {
+    result.innerHTML = `<div class="hb-err">Impossible de vérifier les disponibilités en ce moment. <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener" style="color:var(--gold-light)">Voir sur Airbnb →</a></div>`;
     return;
   }
 
