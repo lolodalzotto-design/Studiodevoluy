@@ -589,9 +589,9 @@ a { text-decoration: none; color: inherit; }
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 64px; align-items: center; margin-top: 56px;
 }
-.studio-airbnb-badge { margin-top: 40px; display: flex; justify-content: flex-start; }
-.studio-airbnb-badge img { width: 110px; height: 110px; transition: transform 0.2s; }
-.studio-airbnb-badge img:hover { transform: scale(1.07); }
+.studio-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.studio-airbnb-badge-img { width: 96px; height: 96px; transition: transform 0.2s; }
+.studio-airbnb-badge-img:hover { transform: scale(1.08); }
 .studio-text p {
   font-size: 1.02rem; line-height: 1.8; color: var(--gray-text);
   margin-bottom: 20px; font-weight: 300;
@@ -1251,7 +1251,12 @@ footer a:hover { color: var(--gold-light); }
 <!-- LE STUDIO -->
 <section id="studio" class="section" aria-labelledby="studio-title">
   <div class="section-inner">
-    <span class="section-label">Le logement</span>
+    <div class="studio-top">
+      <span class="section-label">Le logement</span>
+      <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener" aria-label="Voir le studio sur Airbnb">
+        <img src="file_000000007c3c71f4863f065e308b423e.png" alt="Disponible aussi sur Airbnb" class="studio-airbnb-badge-img">
+      </a>
+    </div>
     <h2 class="section-title" id="studio-title">Un studio <em>rénové</em>, confortable<br>et idéalement situé</h2>
     <div class="studio-grid">
       <div class="studio-text">
@@ -1291,11 +1296,6 @@ footer a:hover { color: var(--gold-light); }
           <div class="studio-card-val">7ème</div>
           <div class="studio-card-label">Étage · avec ascenseur</div>
         </div>
-      </div>
-      <div class="studio-airbnb-badge">
-        <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener" aria-label="Voir le studio sur Airbnb">
-          <img src="file_000000007c3c71f4863f065e308b423e.png" alt="Disponible aussi sur Airbnb" width="120" height="120">
-        </a>
       </div>
     </div>
   </div>
