@@ -1836,7 +1836,7 @@ function hbNavMonth(dir) {
 }
 
 function hbOnDayClick(dateStr, e) {
-  if (e) e.stopPropagation();
+  if (e) { e.stopPropagation(); e.preventDefault(); }
   const d = new Date(dateStr + 'T12:00:00');
   const today = new Date(); today.setHours(0,0,0,0);
   if (d < today || bookedDates.has(dateStr)) return;
@@ -1866,6 +1866,7 @@ function hbOnDayClick(dateStr, e) {
 }
 
 function hbOnDayHover(dateStr) {
+  if ('ontouchstart' in window) return; // no hover on touch devices
   if (hbPickerMode !== 'out' || !hbCheckin) { hbHoverDate = null; return; }
   const d = dateStr ? new Date(dateStr + 'T12:00:00') : null;
   hbHoverDate = (d && d > hbCheckin) ? d : null;
@@ -1913,8 +1914,11 @@ function hbRenderCalendar() {
       if (inRange)       cls += ' hb-cal-day--range';
       if (isRangeStart)  cls += ' hb-cal-day--range-start';
       if (isRangeEnd && !isCI) cls += ' hb-cal-day--range-end';
+      const isTouch = 'ontouchstart' in window;
       const attrs = (!isPast && !isBooked)
-        ? `onclick="hbOnDayClick('${key}',event)" onmouseenter="hbOnDayHover('${key}')" onmouseleave="hbOnDayHover(null)"`
+        ? (isTouch
+            ? `ontouchend="hbOnDayClick('${key}',event)" onclick="hbOnDayClick('${key}',event)"`
+            : `onclick="hbOnDayClick('${key}',event)" onmouseenter="hbOnDayHover('${key}')" onmouseleave="hbOnDayHover(null)"`)
         : '';
       html += `<div class="${cls}" ${attrs}>${d}</div>`;
     }
