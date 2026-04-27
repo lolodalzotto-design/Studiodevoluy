@@ -2249,7 +2249,7 @@ function heroCheck() {
     </div>`;
 }
 
-const GOOGLE_SCRIPT_URL = '';
+const GOOGLE_SCRIPT_URL = 'REMPLACER_PAR_URL_APPS_SCRIPT';
 
 async function hbSubmitContact(btn) {
   const ids = ['hb-prenom','hb-nom','hb-email','hb-tel'];
@@ -2267,13 +2267,12 @@ async function hbSubmitContact(btn) {
   const email  = document.getElementById('hb-email').value.trim();
   const tel    = document.getElementById('hb-tel').value.trim();
   window.open(window._hbWaUrl, '_blank', 'noopener');
-  if (GOOGLE_SCRIPT_URL) {
+  if (GOOGLE_SCRIPT_URL && !GOOGLE_SCRIPT_URL.startsWith('REMPLACER')) {
     if (btn) { btn.disabled = true; btn.textContent = 'Envoi…'; }
     try {
       await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST', mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: new URLSearchParams({
           prenom, nom, email, tel,
           dates: `${hbCheckin?.toLocaleDateString('fr-FR')} → ${hbCheckout?.toLocaleDateString('fr-FR')}`,
           guests: document.getElementById('hb-guests').value,
