@@ -1177,8 +1177,8 @@ footer a:hover { color: var(--gold-light); }
             <div class="hb-dr-val hb-dr-placeholder" id="hb-dr-in-val">Ajouter une date</div>
           </div>
           <div class="hb-dr-sep" aria-hidden="true"></div>
-          <div class="hb-dr-field" id="hb-dr-out" onclick="hbOpenPicker('out')" tabindex="0" role="button" aria-label="Date de départ">
-            <div class="hb-dr-label">Départ</div>
+          <div class="hb-dr-field" id="hb-dr-out" onclick="hbOpenPicker('out')" tabindex="0" role="button" aria-label="Date de retour">
+            <div class="hb-dr-label">Retour</div>
             <div class="hb-dr-val hb-dr-placeholder" id="hb-dr-out-val">Ajouter une date</div>
           </div>
         </div>
@@ -1803,12 +1803,17 @@ function hbSetActiveField(mode) {
 }
 
 function hbOpenPicker(mode) {
-  // If clicking "out" with no check-in yet, pick check-in first
   hbPickerMode = (mode === 'out' && !hbCheckin) ? 'in' : mode;
   document.getElementById('hb-cal-hint-text').textContent =
-    hbPickerMode === 'in' ? "Choisissez votre date d'arrivée" : "Choisissez votre date de départ";
+    hbPickerMode === 'in' ? "Choisissez votre date d'arrivée" : "Choisissez votre date de retour";
   hbSetActiveField(hbPickerMode);
-  hbCalOffset = 0;
+  if (hbPickerMode === 'out' && hbCheckin) {
+    // Position calendar so checkin month is visible on the left
+    const now = new Date();
+    hbCalOffset = Math.max(0, (hbCheckin.getFullYear() - now.getFullYear()) * 12 + (hbCheckin.getMonth() - now.getMonth()));
+  } else {
+    hbCalOffset = 0;
+  }
   hbRenderCalendar();
   document.getElementById('hb-cal-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1855,14 +1860,14 @@ function hbOnDayClick(dateStr) {
     hbCheckin = d; hbCheckout = null; hbHoverDate = null;
     hbPickerMode = 'out';
     hbSetActiveField('out');
-    document.getElementById('hb-cal-hint-text').textContent = "Choisissez votre date de départ";
+    document.getElementById('hb-cal-hint-text').textContent = "Choisissez votre date de retour";
     hbUpdateDisplay(); hbRenderCalendar();
   } else {
     // 'out' mode
     if (!hbCheckin || d <= hbCheckin) {
       // Treat as new check-in
       hbCheckin = d; hbCheckout = null; hbHoverDate = null;
-      document.getElementById('hb-cal-hint-text').textContent = "Choisissez votre date de départ";
+      document.getElementById('hb-cal-hint-text').textContent = "Choisissez votre date de retour";
       hbUpdateDisplay(); hbRenderCalendar();
     } else {
       // Validate no blocked days in range
