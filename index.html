@@ -356,22 +356,18 @@ a { text-decoration: none; color: inherit; }
 }
 .hb-err a { color: var(--gold-light); }
 /* ── DATE FIELDS (Airbnb style) ── */
-.hb-date-row {
-  display: flex; align-items: stretch;
-  border: 1.5px solid rgba(255,255,255,0.2); border-radius: var(--radius-sm);
-  background: rgba(255,255,255,0.06); overflow: hidden;
+.hb-date-sel-btn {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 13px 16px;
+  background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-sm); color: #fff;
+  font-family: inherit; font-size: 0.93rem; font-weight: 500;
+  cursor: pointer; transition: background var(--transition), border-color var(--transition);
+  text-align: left;
 }
-.hb-dr-field {
-  flex: 1; padding: 11px 14px; cursor: pointer;
-  display: flex; flex-direction: column; gap: 3px;
-  transition: background var(--transition); min-width: 0;
-}
-.hb-dr-field:hover { background: rgba(255,255,255,0.08); }
-.hb-dr-field.active { background: rgba(255,255,255,0.13); box-shadow: inset 0 0 0 2px var(--gold); border-radius: var(--radius-sm); }
-.hb-dr-sep { width: 1px; background: rgba(255,255,255,0.13); margin: 8px 0; flex-shrink: 0; }
-.hb-dr-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
-.hb-dr-val { font-size: 0.88rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hb-dr-placeholder { color: rgba(255,255,255,0.32) !important; font-weight: 400 !important; }
+.hb-date-sel-btn:hover { background: rgba(255,255,255,0.11); }
+.hb-date-sel-btn.has-dates { border-color: var(--gold); font-weight: 600; }
+.hb-date-sel-btn svg { flex-shrink: 0; opacity: 0.7; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 /* ── CALENDAR OVERLAY (Airbnb style) ── */
 .hb-cal-overlay {
   position: fixed; inset: 0; z-index: 9000;
@@ -1171,17 +1167,10 @@ footer a:hover { color: var(--gold-light); }
         Vérifier la disponibilité
       </div>
       <div class="hb-fields">
-        <div class="hb-date-row">
-          <div class="hb-dr-field" id="hb-dr-in" onclick="hbOpenPicker('in')" tabindex="0" role="button" aria-label="Date d'arrivée">
-            <div class="hb-dr-label">Arrivée</div>
-            <div class="hb-dr-val hb-dr-placeholder" id="hb-dr-in-val">Ajouter une date</div>
-          </div>
-          <div class="hb-dr-sep" aria-hidden="true"></div>
-          <div class="hb-dr-field" id="hb-dr-out" onclick="hbOpenPicker('out')" tabindex="0" role="button" aria-label="Date de retour">
-            <div class="hb-dr-label">Retour</div>
-            <div class="hb-dr-val hb-dr-placeholder" id="hb-dr-out-val">Ajouter une date</div>
-          </div>
-        </div>
+        <button class="hb-date-sel-btn" id="hb-date-sel-btn" onclick="hbOpenPicker()" aria-label="Sélectionner les dates du séjour">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span id="hb-date-sel-text">Sélectionner mes dates</span>
+        </button>
         <div class="hb-field">
           <label for="hb-guests">Voyageurs</label>
           <select id="hb-guests" aria-label="Nombre de voyageurs">
@@ -1789,31 +1778,28 @@ function hbFmtShort(d) {
 }
 
 function hbUpdateDisplay() {
-  const inEl  = document.getElementById('hb-dr-in-val');
-  const outEl = document.getElementById('hb-dr-out-val');
-  if (hbCheckin) { inEl.textContent  = hbFmtShort(hbCheckin);  inEl.classList.remove('hb-dr-placeholder'); }
-  else           { inEl.textContent  = 'Ajouter une date';      inEl.classList.add('hb-dr-placeholder'); }
-  if (hbCheckout){ outEl.textContent = hbFmtShort(hbCheckout); outEl.classList.remove('hb-dr-placeholder'); }
-  else           { outEl.textContent = 'Ajouter une date';      outEl.classList.add('hb-dr-placeholder'); }
-}
-
-function hbSetActiveField(mode) {
-  document.getElementById('hb-dr-in').classList.toggle('active',  mode === 'in');
-  document.getElementById('hb-dr-out').classList.toggle('active', mode === 'out');
-}
-
-function hbOpenPicker(mode) {
-  hbPickerMode = (mode === 'out' && !hbCheckin) ? 'in' : mode;
-  document.getElementById('hb-cal-hint-text').textContent =
-    hbPickerMode === 'in' ? "Choisissez votre date d'arrivée" : "Choisissez votre date de retour";
-  hbSetActiveField(hbPickerMode);
-  if (hbPickerMode === 'out' && hbCheckin) {
-    // Position calendar so checkin month is visible on the left
-    const now = new Date();
-    hbCalOffset = Math.max(0, (hbCheckin.getFullYear() - now.getFullYear()) * 12 + (hbCheckin.getMonth() - now.getMonth()));
+  const btn = document.getElementById('hb-date-sel-btn');
+  const txt = document.getElementById('hb-date-sel-text');
+  if (!btn || !txt) return;
+  if (hbCheckin && hbCheckout) {
+    const nights = Math.round((hbCheckout - hbCheckin) / 86400000);
+    txt.textContent = `${hbFmtShort(hbCheckin)} → ${hbFmtShort(hbCheckout)}  ·  ${nights} nuit${nights > 1 ? 's' : ''}`;
+    btn.classList.add('has-dates');
+  } else if (hbCheckin) {
+    txt.textContent = `${hbFmtShort(hbCheckin)} → retour ?`;
+    btn.classList.remove('has-dates');
   } else {
-    hbCalOffset = 0;
+    txt.textContent = 'Sélectionner mes dates';
+    btn.classList.remove('has-dates');
   }
+}
+
+function hbOpenPicker() {
+  hbCheckin = null; hbCheckout = null; hbHoverDate = null;
+  hbPickerMode = 'in';
+  hbCalOffset = 0;
+  document.getElementById('hb-cal-hint-text').textContent = "Choisissez votre date d'arrivée";
+  hbUpdateDisplay();
   hbRenderCalendar();
   document.getElementById('hb-cal-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1825,7 +1811,6 @@ function hbClosePicker() {
   document.body.style.overflow = '';
   hbPickerMode = null;
   hbHoverDate  = null;
-  hbSetActiveField(null);
   document.removeEventListener('keydown', hbEscHandler);
 }
 
@@ -1837,7 +1822,7 @@ function hbEscHandler(e) { if (e.key === 'Escape') hbClosePicker(); }
 function hbClearDates() {
   hbCheckin = null; hbCheckout = null; hbHoverDate = null;
   hbPickerMode = 'in';
-  hbSetActiveField('in');
+  hbCalOffset = 0;
   document.getElementById('hb-cal-hint-text').textContent = "Choisissez votre date d'arrivée";
   hbUpdateDisplay();
   hbRenderCalendar();
@@ -1856,21 +1841,17 @@ function hbOnDayClick(dateStr) {
   if (d < today || bookedDates.has(dateStr)) return;
 
   if (hbPickerMode === 'in') {
-    // Set check-in, switch to check-out mode
     hbCheckin = d; hbCheckout = null; hbHoverDate = null;
     hbPickerMode = 'out';
-    hbSetActiveField('out');
     document.getElementById('hb-cal-hint-text').textContent = "Choisissez votre date de retour";
     hbUpdateDisplay(); hbRenderCalendar();
   } else {
-    // 'out' mode
     if (!hbCheckin || d <= hbCheckin) {
-      // Treat as new check-in
       hbCheckin = d; hbCheckout = null; hbHoverDate = null;
+      hbPickerMode = 'out';
       document.getElementById('hb-cal-hint-text').textContent = "Choisissez votre date de retour";
       hbUpdateDisplay(); hbRenderCalendar();
     } else {
-      // Validate no blocked days in range
       let blocked = false;
       for (let dd = new Date(hbCheckin); dd < d; dd.setDate(dd.getDate()+1)) {
         if (bookedDates.has(hbDateStr(dd))) { blocked = true; break; }
