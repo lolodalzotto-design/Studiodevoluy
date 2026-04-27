@@ -589,7 +589,7 @@ a { text-decoration: none; color: inherit; }
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 64px; align-items: center; margin-top: 56px;
 }
-.studio-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.galerie-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 .studio-airbnb-badge-img { width: 96px; height: 96px; transition: transform 0.2s; }
 .studio-airbnb-badge-img:hover { transform: scale(1.08); }
 .studio-text p {
@@ -1196,7 +1196,12 @@ footer a:hover { color: var(--gold-light); }
 <!-- GALERIE PHOTOS -->
 <section id="galerie" aria-labelledby="galerie-title">
   <div class="galerie-inner">
-    <span class="section-label" style="color:var(--gold-light);">Photos du studio</span>
+    <div class="galerie-top">
+      <span class="section-label" style="color:var(--gold-light);">Photos du studio</span>
+      <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener" aria-label="Voir le studio sur Airbnb">
+        <img src="file_000000007c3c71f4863f065e308b423e.png" alt="Disponible aussi sur Airbnb" class="studio-airbnb-badge-img">
+      </a>
+    </div>
     <h2 class="section-title" id="galerie-title" style="color:#fff;">Le studio <em style="color:var(--gold-light);">en images</em></h2>
     <div class="galerie-grid">
       <div class="galerie-item galerie-item--tall" onclick="openLightbox(0)" tabindex="0" role="button" aria-label="Photo 1 du studio">
@@ -1251,12 +1256,7 @@ footer a:hover { color: var(--gold-light); }
 <!-- LE STUDIO -->
 <section id="studio" class="section" aria-labelledby="studio-title">
   <div class="section-inner">
-    <div class="studio-top">
-      <span class="section-label">Le logement</span>
-      <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener" aria-label="Voir le studio sur Airbnb">
-        <img src="file_000000007c3c71f4863f065e308b423e.png" alt="Disponible aussi sur Airbnb" class="studio-airbnb-badge-img">
-      </a>
-    </div>
+    <span class="section-label">Le logement</span>
     <h2 class="section-title" id="studio-title">Un studio <em>rénové</em>, confortable<br>et idéalement situé</h2>
     <div class="studio-grid">
       <div class="studio-text">
