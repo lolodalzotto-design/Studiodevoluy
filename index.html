@@ -90,6 +90,96 @@
 }
 </script>
 
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Où se trouve le Studio Devoluy à Superdévoluy ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le Studio Devoluy est situé au 7ème étage de la Résidence Le Bois d'Aurouze à Superdévoluy (05250), dans les Hautes-Alpes, à 1600 m d'altitude. Accessible en ascenseur, il offre une vue panoramique sur la vallée du Dévoluy. Superdévoluy se trouve à environ 1h de Gap, 1h30 de Grenoble et 2h de Lyon."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Le studio est-il vraiment ski aux pieds ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. La Résidence Le Bois d'Aurouze est directement au pied des remontées mécaniques de Superdévoluy. Vous pouvez chausser vos skis depuis la résidence et rejoindre les pistes sans jamais prendre la voiture. C'est l'un des atouts majeurs du studio pour un séjour ski dans les Hautes-Alpes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Combien de personnes peut accueillir le studio ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le studio peut accueillir jusqu'à 4 personnes grâce à un lit double en mezzanine et un canapé-lit BZ confort. Sa surface de 18 m² est intelligemment optimisée pour offrir tout le confort nécessaire lors d'un séjour à la montagne en famille ou entre amis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quelle est la saison de ski à Superdévoluy ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La station de Superdévoluy est généralement ouverte de décembre à avril selon l'enneigement. Avec ses 105 km de pistes et une altitude comprise entre 1500 m et 2500 m, elle bénéficie d'un bon enneigement naturel tout au long de la saison hivernale dans les Hautes-Alpes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Que faire à Superdévoluy en dehors du ski ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "En été, le massif du Dévoluy offre de nombreuses activités outdoor : randonnées balisées, pistes de VTT, via ferrata, escalade et parapente. En hiver, en dehors du ski alpin, vous pouvez pratiquer le ski de fond, la raquette à neige ou profiter des paysages alpins préservés des Hautes-Alpes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Le WiFi est-il inclus dans la location ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, le Studio Devoluy est équipé d'une connexion WiFi haut débit incluse dans le prix de la location, sans aucun supplément."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Le linge de maison est-il fourni dans le studio ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non, le linge de maison (draps, taies d'oreiller, serviettes) n'est pas fourni. Prévoyez vos propres draps ou renseignez-vous auprès de services locaux de location de linge. Il n'y a pas de lave-linge dans le studio, mais un lave-vaisselle est disponible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Y a-t-il un parking à la résidence ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, la Résidence Le Bois d'Aurouze dispose d'un parking disponible pour les locataires, idéal si vous venez en voiture depuis Grenoble, Gap, Lyon ou Marseille."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment réserver le Studio Devoluy sans passer par Airbnb ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Vous pouvez contacter Laurent Dalzotto directement par téléphone ou WhatsApp au 06 03 25 76 79, ou par email à lolo.dalzotto@gmail.com, pour une réservation en direct et un tarif sans commission. Le studio est également disponible sur Airbnb."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quels sont les horaires d'arrivée et de départ ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "L'arrivée (check-in) est possible à partir de 16h00 et le départ (check-out) doit se faire avant 10h00. Des arrangements peuvent être envisagés directement avec Laurent en fonction des disponibilités."
+      }
+    }
+  ]
+}
+</script>
+
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1087,6 +1177,44 @@ footer a:hover { color: var(--gold-light); }
   0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); }
   50%       { box-shadow: 0 4px 32px rgba(37,211,102,0.8), 0 0 0 8px rgba(37,211,102,0.12); }
 }
+
+/* ── FAQ SECTION ── */
+#faq { background: var(--snow); }
+.faq-list { margin-top: 48px; }
+.faq-item { border-bottom: 1px solid rgba(74,124,95,0.15); }
+.faq-item:first-child { border-top: 1px solid rgba(74,124,95,0.15); }
+.faq-btn {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  width: 100%; background: none; border: none; cursor: pointer;
+  padding: 22px 0; text-align: left;
+  font-family: var(--font-body); font-size: 1.05rem; font-weight: 500;
+  color: var(--dark-text); transition: color var(--transition);
+}
+.faq-btn:hover { color: var(--alpine); }
+.faq-btn[aria-expanded="true"] { color: var(--alpine); }
+.faq-icon {
+  flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center;
+  transition: transform var(--transition), background var(--transition);
+  color: var(--gold);
+}
+.faq-btn[aria-expanded="true"] .faq-icon {
+  transform: rotate(45deg); background: var(--gold); color: #fff; border-color: var(--gold);
+}
+.faq-icon svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+.faq-answer {
+  overflow: hidden; max-height: 0;
+  transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1);
+}
+.faq-answer-inner {
+  padding: 0 48px 22px 0;
+  font-size: 0.97rem; line-height: 1.8; color: var(--gray-text);
+}
+.faq-answer-inner a { color: var(--alpine); text-decoration: underline; }
+@media (max-width: 640px) {
+  .faq-btn { font-size: 0.97rem; padding: 18px 0; }
+  .faq-answer-inner { padding-right: 0; }
+}
 </style>
 </head>
 <body>
@@ -1551,6 +1679,118 @@ footer a:hover { color: var(--gold-light); }
   </div>
 </section>
 
+<!-- FAQ -->
+<section id="faq" class="section" aria-labelledby="faq-title">
+  <div class="section-inner">
+    <span class="section-label">Questions fréquentes</span>
+    <h2 class="section-title" id="faq-title">Tout ce que vous voulez<br>savoir sur le <em>studio</em></h2>
+    <p class="section-lead">Des réponses claires pour bien préparer votre séjour à Superdévoluy.</p>
+    <div class="faq-list" id="faq-list" role="list">
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a1">
+          Où se trouve le Studio Devoluy à Superdévoluy ?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-a1" role="region">
+          <p class="faq-answer-inner">Le Studio Devoluy est situé au <strong>7ème étage de la Résidence Le Bois d'Aurouze</strong> à Superdévoluy (05250), dans les Hautes-Alpes, à <strong>1600 m d'altitude</strong>. Il est accessible en ascenseur et offre une vue panoramique sur la vallée du Dévoluy. Superdévoluy se trouve à environ <strong>1h de Gap</strong>, 1h30 de Grenoble et 2h de Lyon.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a2">
+          Le studio est-il vraiment ski aux pieds ?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-a2" role="region">
+          <p class="faq-answer-inner">Oui. La Résidence Le Bois d'Aurouze est <strong>directement au pied des remontées mécaniques</strong> de Superdévoluy. Vous pouvez chausser vos skis depuis la résidence et rejoindre les pistes sans jamais prendre la voiture. C'est l'un des atouts majeurs du studio pour une <strong>location ski aux pieds dans les Hautes-Alpes</strong>.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a3">
+          Combien de personnes peut accueillir le studio ?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-a3" role="region">
+          <p class="faq-answer-inner">Le studio peut accueillir jusqu'à <strong>4 personnes</strong> grâce à un <strong>lit double en mezzanine</strong> et un <strong>canapé-lit BZ confort</strong>. Ses 18 m² sont intelligemment optimisés pour offrir tout le confort nécessaire lors d'un séjour à la montagne en famille ou entre amis.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a4">
+          Quelle est la saison de ski à Superdévoluy ?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-a4" role="region">
+          <p class="faq-answer-inner">La station de Superdévoluy est généralement ouverte de <strong>décembre à avril</strong> selon l'enneigement. Avec <strong>105 km de pistes</strong> et une altitude comprise entre 1500 m et 2500 m, elle bénéficie d'un bon enneigement naturel tout au long de la saison hivernale dans les Hautes-Alpes.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a5">
+          Que faire à Superdévoluy en dehors du ski ?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-a5" role="region">
+          <p class="faq-answer-inner">En été, le massif du Dévoluy se transforme en terrain de jeu : <strong>randonnées balisées</strong>, pistes de <strong>VTT</strong>, <strong>via ferrata</strong>, escalade et parapente. En hiver hors pistes, le ski de fond et la raquette à neige sont également disponibles. Le studio est idéal pour explorer les Hautes-Alpes <strong>toutes saisons</strong>.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a6">
+          Le WiFi est-il inclus dans la location ?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-a6" role="region">
+          <p class="faq-answer-inner">Oui, le Studio Devoluy est équipé d'une <strong>connexion WiFi haut débit incluse</strong> dans le prix de la location, sans aucun supplément.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a7">
+          Le linge de maison est-il fourni ?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-a7" role="region">
+          <p class="faq-answer-inner"><strong>Non</strong>, le linge de maison (draps, taies d'oreiller, serviettes) n'est pas fourni. Pensez à apporter vos propres draps ou à vous renseigner auprès de services locaux de location de linge. Il n'y a pas de lave-linge dans le studio, mais un lave-vaisselle est disponible.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a8">
+          Y a-t-il un parking à la Résidence Le Bois d'Aurouze ?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-a8" role="region">
+          <p class="faq-answer-inner">Oui, la résidence dispose d'un <strong>parking disponible pour les locataires</strong>, idéal si vous venez en voiture depuis Grenoble, Gap, Lyon ou Marseille pour votre séjour ski dans le Dévoluy.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a9">
+          Comment réserver le Studio Devoluy sans passer par Airbnb ?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-a9" role="region">
+          <p class="faq-answer-inner">Vous pouvez contacter <strong>Laurent Dalzotto directement</strong> par téléphone ou WhatsApp au <a href="tel:+33603257679">06 03 25 76 79</a>, ou par email à <a href="mailto:lolo.dalzotto@gmail.com">lolo.dalzotto@gmail.com</a>, pour une <strong>réservation en direct sans commission</strong>. Le studio est aussi disponible sur <a href="https://www.airbnb.fr/rooms/53531375" target="_blank" rel="noopener">Airbnb</a>.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-btn" aria-expanded="false" aria-controls="faq-a10">
+          Quels sont les horaires d'arrivée et de départ ?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-a10" role="region">
+          <p class="faq-answer-inner">L'arrivée (check-in) est possible à partir de <strong>16h00</strong> et le départ (check-out) doit se faire avant <strong>10h00</strong>. Des arrangements peuvent être envisagés directement avec Laurent en fonction des disponibilités.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- DISPONIBILITÉS / FUNNEL -->
 <!-- RÉSERVATION -->
 <section id="reservation" aria-labelledby="resa-title">
@@ -1627,6 +1867,22 @@ footer a:hover { color: var(--gold-light); }
 </div>
 
 <script>
+// FAQ accordion
+document.querySelectorAll('.faq-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const isOpen = btn.getAttribute('aria-expanded') === 'true';
+    document.querySelectorAll('.faq-btn').forEach(b => {
+      b.setAttribute('aria-expanded', 'false');
+      document.getElementById(b.getAttribute('aria-controls')).style.maxHeight = '0';
+    });
+    if (!isOpen) {
+      btn.setAttribute('aria-expanded', 'true');
+      const ans = document.getElementById(btn.getAttribute('aria-controls'));
+      ans.style.maxHeight = ans.scrollHeight + 'px';
+    }
+  });
+});
+
 // Navbar scroll
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
