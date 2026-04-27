@@ -1835,7 +1835,8 @@ function hbNavMonth(dir) {
   hbRenderCalendar();
 }
 
-function hbOnDayClick(dateStr) {
+function hbOnDayClick(dateStr, e) {
+  if (e) e.stopPropagation();
   const d = new Date(dateStr + 'T12:00:00');
   const today = new Date(); today.setHours(0,0,0,0);
   if (d < today || bookedDates.has(dateStr)) return;
@@ -1878,8 +1879,9 @@ function hbRenderCalendar() {
   prevBtn.disabled = hbCalOffset <= 0;
   const rawEnd  = hbCheckout || (hbPickerMode === 'out' ? hbHoverDate : null);
   const rangeEnd = rawEnd && hbCheckin && rawEnd > hbCheckin ? rawEnd : null;
+  const monthCount = window.innerWidth <= 560 ? 1 : 2;
   let html = '';
-  for (let mi = 0; mi < 2; mi++) {
+  for (let mi = 0; mi < monthCount; mi++) {
     const ref = new Date();
     const refDate = new Date(ref.getFullYear(), ref.getMonth() + hbCalOffset + mi, 1);
     const ay = refDate.getFullYear(), am = refDate.getMonth();
@@ -1912,7 +1914,7 @@ function hbRenderCalendar() {
       if (isRangeStart)  cls += ' hb-cal-day--range-start';
       if (isRangeEnd && !isCI) cls += ' hb-cal-day--range-end';
       const attrs = (!isPast && !isBooked)
-        ? `onclick="hbOnDayClick('${key}')" onmouseenter="hbOnDayHover('${key}')" onmouseleave="hbOnDayHover(null)"`
+        ? `onclick="hbOnDayClick('${key}',event)" onmouseenter="hbOnDayHover('${key}')" onmouseleave="hbOnDayHover(null)"`
         : '';
       html += `<div class="${cls}" ${attrs}>${d}</div>`;
     }
