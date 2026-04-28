@@ -2076,7 +2076,9 @@ function hbClosePicker() {
   document.removeEventListener('keydown', hbEscHandler);
 }
 
+let _hbDayJustTapped = false;
 function hbOverlayClick(e) {
+  if (_hbDayJustTapped) return;
   if (e.target === document.getElementById('hb-cal-overlay')) hbClosePicker();
 }
 function hbEscHandler(e) { if (e.key === 'Escape') hbClosePicker(); }
@@ -2099,6 +2101,8 @@ function hbNavMonth(dir) {
 
 function hbOnDayClick(dateStr, e) {
   if (e) { e.stopPropagation(); e.preventDefault(); }
+  _hbDayJustTapped = true;
+  setTimeout(() => { _hbDayJustTapped = false; }, 400);
   const d = new Date(dateStr + 'T12:00:00');
   const today = new Date(); today.setHours(0,0,0,0);
   if (d < today || bookedDates.has(dateStr)) return;
@@ -2179,7 +2183,7 @@ function hbRenderCalendar() {
       const isTouch = 'ontouchstart' in window;
       const attrs = (!isPast && !isBooked)
         ? (isTouch
-            ? `ontouchend="hbOnDayClick('${key}',event)" onclick="hbOnDayClick('${key}',event)"`
+            ? `ontouchend="hbOnDayClick('${key}',event)"`
             : `onclick="hbOnDayClick('${key}',event)" onmouseenter="hbOnDayHover('${key}')" onmouseleave="hbOnDayHover(null)"`)
         : '';
       html += `<div class="${cls}" ${attrs}>${d}</div>`;
