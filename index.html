@@ -2123,7 +2123,10 @@ function hbOnDayClick(dateStr, e) {
       for (let dd = new Date(hbCheckin); dd < d; dd.setDate(dd.getDate()+1)) {
         if (bookedDates.has(hbDateStr(dd))) { blocked = true; break; }
       }
-      if (blocked) return;
+      if (blocked) {
+        document.getElementById('hb-cal-hint-text').textContent = "⚠️ Ces dates incluent une période déjà réservée — choisissez d'autres dates.";
+        return;
+      }
       hbCheckout = d; hbHoverDate = null; hbPickerMode = null;
       hbUpdateDisplay(); hbRenderCalendar();
       setTimeout(() => { hbClosePicker(); heroCheck(); }, 200);
@@ -2177,7 +2180,7 @@ function hbRenderCalendar() {
       if (isToday && !isCI && !isCO) cls += ' hb-cal-day--today';
       if (isCI)  cls += ' hb-cal-day--checkin';
       if (isCO || isHover)  cls += ' hb-cal-day--checkout';
-      if (inRange)       cls += ' hb-cal-day--range';
+      if (inRange && !isBooked) cls += ' hb-cal-day--range';
       if (isRangeStart)  cls += ' hb-cal-day--range-start';
       if (isRangeEnd && !isCI) cls += ' hb-cal-day--range-end';
       const isTouch = 'ontouchstart' in window;
