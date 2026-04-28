@@ -2183,11 +2183,8 @@ function hbRenderCalendar() {
       if (inRange && !isBooked) cls += ' hb-cal-day--range';
       if (isRangeStart)  cls += ' hb-cal-day--range-start';
       if (isRangeEnd && !isCI) cls += ' hb-cal-day--range-end';
-      const isTouch = 'ontouchstart' in window;
       const attrs = (!isPast && !isBooked)
-        ? (isTouch
-            ? `ontouchend="hbOnDayClick('${key}',event)"`
-            : `onclick="hbOnDayClick('${key}',event)" onmouseenter="hbOnDayHover('${key}')" onmouseleave="hbOnDayHover(null)"`)
+        ? `onclick="hbOnDayClick('${key}',event)" onmouseenter="hbOnDayHover('${key}')" onmouseleave="hbOnDayHover(null)"`
         : '';
       html += `<div class="${cls}" ${attrs}>${d}</div>`;
     }
