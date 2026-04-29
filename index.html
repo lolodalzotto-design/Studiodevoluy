@@ -2134,11 +2134,21 @@ function hbOnDayClick(dateStr, e) {
   }
 }
 
-function hbOnDayHover(dateStr) {
+function hbOnDayHover(dateStr, e) {
   if ('ontouchstart' in window) return; // no hover on touch devices
-  if (hbPickerMode !== 'out' || !hbCheckin) { hbHoverDate = null; return; }
+  // Ignore mouseleave fired on elements just removed from the DOM by hbRenderCalendar —
+  // browsers fire mouseleave on detached nodes, which would cause an infinite render loop
+  // where each re-render triggers another mouseleave → re-render → mouseleave …
+  // This loop prevents mousedown and mouseup landing on the same element, breaking clicks.
+  if (e && !document.contains(e.currentTarget)) return;
+  if (hbPickerMode !== 'out' || !hbCheckin) {
+    if (hbHoverDate !== null) { hbHoverDate = null; hbRenderCalendar(); }
+    return;
+  }
   const d = dateStr ? new Date(dateStr + 'T12:00:00') : null;
-  hbHoverDate = (d && d > hbCheckin) ? d : null;
+  const newHover = (d && d > hbCheckin) ? d : null;
+  if (hbDateStr(newHover) === hbDateStr(hbHoverDate)) return; // no change, skip re-render
+  hbHoverDate = newHover;
   hbRenderCalendar();
 }
 
@@ -2184,7 +2194,7 @@ function hbRenderCalendar() {
       if (isRangeStart)  cls += ' hb-cal-day--range-start';
       if (isRangeEnd && !isCI) cls += ' hb-cal-day--range-end';
       const attrs = (!isPast && !isBooked)
-        ? `onclick="hbOnDayClick('${key}',event)" onmouseenter="hbOnDayHover('${key}')" onmouseleave="hbOnDayHover(null)"`
+        ? `onclick="hbOnDayClick('${key}',event)" onmouseenter="hbOnDayHover('${key}',event)" onmouseleave="hbOnDayHover(null,event)"`
         : '';
       html += `<div class="${cls}" ${attrs}>${d}</div>`;
     }
