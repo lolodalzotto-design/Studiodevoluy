@@ -13,8 +13,6 @@
 <meta name="geo.position" content="44.6885;5.9261">
 <meta name="ICBM" content="44.6885, 5.9261">
 <link rel="canonical" href="https://www.studiodevoluy.fr/">
-<link rel="icon" href="favicon.png" type="image/png">
-<link rel="apple-touch-icon" href="favicon.png">
 
 <!-- Open Graph -->
 <meta property="og:title" content="Studio Devoluy — Ski aux pieds à Superdévoluy, Hautes-Alpes">
@@ -268,8 +266,27 @@ a { text-decoration: none; color: inherit; }
   backdrop-filter: blur(16px);
   box-shadow: 0 1px 0 rgba(30,58,95,0.08);
 }
-.nav-logo { display: flex; align-items: center; cursor: pointer; }
-.nav-logo-img { height: 44px; width: auto; display: block; }
+.nav-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.nav-logo-icon {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--alpine), var(--forest));
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-logo-icon svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 1.8; }
+.nav-brand { display: flex; flex-direction: column; line-height: 1.1; }
+.nav-brand-name {
+  font-family: var(--font-head); font-weight: 700; font-size: 1.05rem;
+  color: rgba(255,255,255,0.95); letter-spacing: 0.01em;
+  transition: color var(--transition);
+}
+#nav.scrolled .nav-brand-name { color: var(--forest); }
+.nav-brand-tag {
+  font-family: var(--font-body); font-size: 0.6rem; font-weight: 500;
+  color: var(--gold-light); letter-spacing: 0.1em; text-transform: uppercase;
+  transition: color var(--transition);
+}
+#nav.scrolled .nav-brand-tag { color: var(--sage); }
 
 #nav .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
 #nav .nav-links a {
@@ -1056,7 +1073,8 @@ footer {
 footer a { color: rgba(255,255,255,0.45); transition: color var(--transition); }
 footer a:hover { color: var(--gold-light); }
 .footer-logo {
-  display: flex; justify-content: center; margin-bottom: 16px;
+  font-family: var(--font-head); font-weight: 700; font-size: 1.1rem;
+  color: rgba(255,255,255,0.75); margin-bottom: 12px;
 }
 .footer-links { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-bottom: 20px; }
 .footer-sep { color: rgba(255,255,255,0.15); }
@@ -1220,7 +1238,15 @@ footer a:hover { color: var(--gold-light); }
 <!-- NAVBAR -->
 <nav id="nav" role="navigation" aria-label="Navigation principale">
   <a href="#hero" class="nav-logo" aria-label="Studio Devoluy — Accueil">
-    <img src="logo%20navbar.png" alt="Studio Devoluy" class="nav-logo-img">
+    <div class="nav-logo-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 17l5-8 4 5 3-4 6 7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="nav-brand">
+      <span class="nav-brand-name">Studio Devoluy</span>
+      <span class="nav-brand-tag">Superdévoluy · 1600m</span>
+    </div>
   </a>
   <ul class="nav-links" id="nav-links">
     <li><a href="#galerie" onclick="closeMenu()">Photos</a></li>
@@ -1797,9 +1823,7 @@ footer a:hover { color: var(--gold-light); }
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">
-    <img src="logo%20navbar.png" alt="Studio Devoluy" style="height:40px;width:auto;filter:brightness(0) invert(1);opacity:0.75;">
-  </div>
+  <div class="footer-logo">Studio Devoluy</div>
   <nav class="footer-links" aria-label="Liens footer">
     <a href="#studio">Le Studio</a>
     <span class="footer-sep" aria-hidden="true">·</span>
