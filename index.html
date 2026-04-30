@@ -183,31 +183,31 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
 <style>
 /* ── VARIABLES ── */
 :root {
-  --forest:        #1a3d28;
-  --forest-dark:   #0f2318;
-  --alpine:        #2d5a3d;
-  --sage:          #4a7c5f;
-  --sage-light:    #7aaa8f;
-  --snow:          #f8f9fa;
-  --cream:         #fdf9f3;
+  --forest:        #1E3A5F;   /* Bleu montagne */
+  --forest-dark:   #152a46;   /* Bleu foncé */
+  --alpine:        #2E7D32;   /* Vert nature */
+  --sage:          #43A047;   /* Vert clair */
+  --sage-light:    #81C784;   /* Vert pâle */
+  --snow:          #F5F5F5;   /* Gris doux */
+  --cream:         #FFFFFF;   /* Blanc */
   --wood:          #8b5e3c;
   --wood-light:    #b07a52;
-  --gold:          #c9a84c;
-  --gold-light:    #e2c070;
-  --dark-text:     #1a2318;
-  --gray-text:     #5a7267;
+  --gold:          #F4B400;   /* Jaune soleil */
+  --gold-light:    #FFD740;   /* Jaune clair */
+  --dark-text:     #1a2338;
+  --gray-text:     #607080;
   --white:         #ffffff;
-  --font-head:     'Playfair Display', serif;
-  --font-body:     'DM Sans', sans-serif;
+  --font-head:     'Poppins', sans-serif;
+  --font-body:     'Poppins', sans-serif;
   --radius:        16px;
   --radius-sm:     8px;
-  --shadow:        0 4px 24px rgba(26,61,40,0.10);
-  --shadow-lg:     0 16px 56px rgba(26,61,40,0.18);
+  --shadow:        0 4px 24px rgba(30,58,95,0.10);
+  --shadow-lg:     0 16px 56px rgba(30,58,95,0.18);
   --transition:    0.3s cubic-bezier(0.4,0,0.2,1);
 }
 
@@ -247,11 +247,11 @@ a { text-decoration: none; color: inherit; }
 .btn-cookie-ok:hover { background: var(--forest); }
 .btn-cookie-no {
   background: transparent; color: #94b89e;
-  border: 1px solid #2d5a3d; border-radius: 50px;
+  border: 1px solid #2E7D32; border-radius: 50px;
   padding: 9px 16px; font-size: 13px; cursor: pointer;
   transition: all var(--transition); white-space: nowrap;
 }
-.btn-cookie-no:hover { color: #fff; border-color: #4a7c5f; }
+.btn-cookie-no:hover { color: #fff; border-color: #43A047; }
 #cookie-banner.hidden { display: none; }
 
 /* ── NAVBAR ── */
@@ -262,9 +262,9 @@ a { text-decoration: none; color: inherit; }
   transition: background var(--transition), box-shadow var(--transition);
 }
 #nav.scrolled {
-  background: rgba(253,249,243,0.97);
+  background: rgba(255,255,255,0.97);
   backdrop-filter: blur(16px);
-  box-shadow: 0 1px 0 rgba(26,61,40,0.08);
+  box-shadow: 0 1px 0 rgba(30,58,95,0.08);
 }
 .nav-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 .nav-logo-icon {
@@ -297,12 +297,12 @@ a { text-decoration: none; color: inherit; }
 #nav.scrolled .nav-links a { color: var(--gray-text); }
 #nav .nav-links a:hover { color: var(--gold) !important; }
 .nav-cta-btn {
-  background: var(--gold) !important; color: var(--forest-dark) !important;
+  background: var(--forest) !important; color: #fff !important;
   padding: 9px 20px; border-radius: 50px;
   font-weight: 600 !important; font-size: 0.82rem !important;
   transition: all var(--transition) !important;
 }
-.nav-cta-btn:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
+.nav-cta-btn:hover { background: var(--alpine) !important; transform: translateY(-1px); }
 .nav-burger {
   display: none; flex-direction: column; gap: 5px;
   cursor: pointer; padding: 4px; background: none; border: none;
@@ -340,7 +340,7 @@ a { text-decoration: none; color: inherit; }
 #hero {
   min-height: 100vh;
   background:
-    linear-gradient(160deg, rgba(5,14,7,0.82) 0%, rgba(13,36,21,0.68) 50%, rgba(5,14,7,0.88) 100%),
+    linear-gradient(160deg, rgba(10,20,42,0.82) 0%, rgba(14,28,56,0.68) 50%, rgba(10,20,42,0.88) 100%),
     url('IMG-20260426-WA0006.jpg') center / cover no-repeat;
   position: relative; display: flex; align-items: center;
   overflow: hidden; padding: 120px 6% 80px;
@@ -348,12 +348,12 @@ a { text-decoration: none; color: inherit; }
 .hero-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .hero-orb {
   position: absolute; border-radius: 50%;
-  background: radial-gradient(circle, rgba(74,124,95,0.25), transparent 70%);
+  background: radial-gradient(circle, rgba(67,160,71,0.25), transparent 70%);
   animation: orbFloat 10s ease-in-out infinite;
 }
 .hero-orb:nth-child(1) { width: 700px; height: 700px; top: -200px; right: -100px; animation-delay: 0s; }
-.hero-orb:nth-child(2) { width: 450px; height: 450px; bottom: -100px; left: 3%; animation-delay: -5s; background: radial-gradient(circle, rgba(201,168,76,0.15), transparent 70%); }
-.hero-orb:nth-child(3) { width: 300px; height: 300px; top: 30%; left: 40%; animation-delay: -3s; background: radial-gradient(circle, rgba(45,90,61,0.2), transparent 70%); }
+.hero-orb:nth-child(2) { width: 450px; height: 450px; bottom: -100px; left: 3%; animation-delay: -5s; background: radial-gradient(circle, rgba(244,180,0,0.15), transparent 70%); }
+.hero-orb:nth-child(3) { width: 300px; height: 300px; top: 30%; left: 40%; animation-delay: -3s; background: radial-gradient(circle, rgba(46,125,50,0.2), transparent 70%); }
 .hero-grid {
   position: absolute; inset: 0;
   background-image:
@@ -402,13 +402,13 @@ a { text-decoration: none; color: inherit; }
 .hb-field select option { background: var(--forest-dark); color: #fff; }
 .hb-btn {
   width: 100%; margin-top: 14px;
-  background: var(--gold); color: var(--forest-dark);
+  background: var(--alpine); color: #fff;
   font-family: var(--font-body); font-weight: 700; font-size: 0.92rem;
   padding: 13px; border: none; border-radius: var(--radius-sm);
   cursor: pointer; transition: all var(--transition);
   display: flex; align-items: center; justify-content: center; gap: 8px;
 }
-.hb-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.hb-btn:hover { background: var(--forest); transform: translateY(-1px); }
 .hb-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; }
 .hb-result { margin-top: 16px; display: none; }
 .hb-ok {
@@ -515,13 +515,13 @@ a { text-decoration: none; color: inherit; }
 .hb-cal-day--today { font-weight: 800; text-decoration: underline; text-underline-offset: 2px; }
 .hb-cal-day--checkin,
 .hb-cal-day--checkout { background: var(--forest-dark) !important; color: #fff !important; font-weight: 700; border-radius: 50%; z-index: 2; }
-.hb-cal-day--range { background: #edf3ef !important; border-radius: 0; z-index: 1; }
-.hb-cal-day--range-start { border-radius: 50% 0 0 50% !important; background: #edf3ef !important; }
-.hb-cal-day--range-end   { border-radius: 0 50% 50% 0 !important; background: #edf3ef !important; }
+.hb-cal-day--range { background: #e3eeff !important; border-radius: 0; z-index: 1; }
+.hb-cal-day--range-start { border-radius: 50% 0 0 50% !important; background: #e3eeff !important; }
+.hb-cal-day--range-end   { border-radius: 0 50% 50% 0 !important; background: #e3eeff !important; }
 .hb-cal-day--checkin.hb-cal-day--range-start::after,
 .hb-cal-day--checkout.hb-cal-day--range-end::after {
   content: ''; position: absolute; top: 0; bottom: 0; width: 50%;
-  background: #edf3ef; z-index: -1;
+  background: #e3eeff; z-index: -1;
 }
 .hb-cal-day--checkin.hb-cal-day--range-start::after { right: 0; }
 .hb-cal-day--checkout.hb-cal-day--range-end::after  { left: 0; }
@@ -568,7 +568,7 @@ a { text-decoration: none; color: inherit; }
 .hero-dot {
   width: 8px; height: 8px; background: var(--gold);
   border-radius: 50%; animation: pulse 2s infinite;
-  box-shadow: 0 0 10px rgba(201,168,76,0.7);
+  box-shadow: 0 0 10px rgba(244,180,0,0.7);
 }
 .hero-eyebrow span {
   font-family: var(--font-body); font-weight: 500; font-size: 0.75rem;
@@ -593,13 +593,13 @@ a { text-decoration: none; color: inherit; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 48px; }
 .btn-primary {
   display: inline-flex; align-items: center; gap: 10px;
-  background: var(--gold); color: var(--forest-dark);
+  background: var(--forest); color: #fff;
   font-family: var(--font-body); font-weight: 600; font-size: 0.92rem;
   padding: 15px 30px; border-radius: 50px;
-  box-shadow: 0 4px 24px rgba(201,168,76,0.4);
+  box-shadow: 0 4px 24px rgba(30,58,95,0.4);
   transition: all var(--transition); cursor: pointer;
 }
-.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.5); }
+.btn-primary:hover { background: var(--alpine); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(30,58,95,0.5); }
 .btn-primary svg { width: 18px; height: 18px; flex-shrink: 0; }
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 10px;
@@ -705,14 +705,14 @@ a { text-decoration: none; color: inherit; }
 .studio-card {
   background: var(--white); border-radius: var(--radius);
   padding: 24px; box-shadow: var(--shadow);
-  border: 1px solid rgba(45,90,61,0.08);
+  border: 1px solid rgba(46,125,50,0.08);
   transition: transform var(--transition), box-shadow var(--transition);
   cursor: default;
 }
 .studio-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 .studio-card-icon {
   width: 44px; height: 44px; border-radius: 12px;
-  background: linear-gradient(135deg, rgba(45,90,61,0.1), rgba(74,124,95,0.15));
+  background: linear-gradient(135deg, rgba(46,125,50,0.1), rgba(67,160,71,0.15));
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 14px;
 }
@@ -736,7 +736,7 @@ a { text-decoration: none; color: inherit; }
 }
 .funnel-step {
   display: flex; align-items: center; gap: 10px;
-  background: var(--white); border: 1.5px solid rgba(45,90,61,0.14);
+  background: var(--white); border: 1.5px solid rgba(46,125,50,0.14);
   border-radius: 50px; padding: 10px 20px;
   font-size: 0.82rem; font-weight: 600; color: var(--gray-text);
 }
@@ -744,7 +744,7 @@ a { text-decoration: none; color: inherit; }
   width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   font-size: 0.72rem; font-weight: 700;
-  background: rgba(45,90,61,0.1); color: var(--sage);
+  background: rgba(46,125,50,0.1); color: var(--sage);
 }
 .funnel-arrow { color: var(--sage-light); font-size: 1.1rem; padding: 0 4px; }
 @media (max-width: 560px) { .funnel-arrow { display: none; } .funnel-steps { gap: 8px; } }
@@ -762,7 +762,7 @@ a { text-decoration: none; color: inherit; }
 .cal-month {
   background: var(--white); border-radius: var(--radius);
   padding: 24px; box-shadow: var(--shadow);
-  border: 1px solid rgba(45,90,61,0.08);
+  border: 1px solid rgba(46,125,50,0.08);
   flex: 1; min-width: 250px; max-width: 330px;
 }
 .cal-month-title {
@@ -778,7 +778,7 @@ a { text-decoration: none; color: inherit; }
   text-align: center; font-size: 0.78rem; padding: 6px 2px;
   border-radius: 6px; line-height: 1;
 }
-.cal-day--available { color: var(--dark-text); background: rgba(45,90,61,0.07); }
+.cal-day--available { color: var(--dark-text); background: rgba(46,125,50,0.07); }
 .cal-day--booked { color: rgba(90,114,103,0.3); background: rgba(210,210,210,0.4); text-decoration: line-through; }
 .cal-day--today { font-weight: 700; outline: 2px solid var(--gold); outline-offset: -2px; }
 .cal-day--past { color: rgba(90,114,103,0.25); background: none; }
@@ -788,7 +788,7 @@ a { text-decoration: none; color: inherit; }
 }
 .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--gray-text); }
 .legend-dot { width: 13px; height: 13px; border-radius: 3px; }
-.legend-dot--available { background: rgba(45,90,61,0.15); }
+.legend-dot--available { background: rgba(46,125,50,0.15); }
 .legend-dot--booked { background: rgba(210,210,210,0.9); }
 .dispo-msg { padding: 36px 0; font-size: 0.88rem; color: var(--gray-text); }
 .dispo-msg a { color: var(--alpine); font-weight: 500; }
@@ -796,7 +796,7 @@ a { text-decoration: none; color: inherit; }
 .dispo-checker {
   background: var(--white); border-radius: var(--radius);
   padding: 32px; box-shadow: var(--shadow);
-  border: 1px solid rgba(45,90,61,0.08); max-width: 680px;
+  border: 1px solid rgba(46,125,50,0.08); max-width: 680px;
 }
 .dispo-checker p { font-size: 0.92rem; color: var(--gray-text); margin-bottom: 20px; font-weight: 300; }
 .dispo-inputs { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
@@ -805,7 +805,7 @@ a { text-decoration: none; color: inherit; }
   font-size: 0.76rem; font-weight: 600; color: var(--gray-text); letter-spacing: 0.05em; text-transform: uppercase;
 }
 .date-field input[type="date"] {
-  border: 1.5px solid rgba(45,90,61,0.15); border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(46,125,50,0.15); border-radius: var(--radius-sm);
   padding: 11px 14px; font-family: var(--font-body); font-size: 0.9rem;
   color: var(--dark-text); background: var(--snow); outline: none;
   transition: border-color var(--transition); width: 100%;
@@ -822,11 +822,11 @@ a { text-decoration: none; color: inherit; }
   margin-top: 18px; padding: 14px 18px; border-radius: var(--radius-sm);
   font-size: 0.9rem; font-weight: 500; display: none;
 }
-.dispo-result.ok  { background: rgba(45,90,61,0.08); color: var(--forest); border: 1px solid rgba(45,90,61,0.2); }
+.dispo-result.ok  { background: rgba(46,125,50,0.08); color: var(--forest); border: 1px solid rgba(46,125,50,0.2); }
 .dispo-result.nok { background: rgba(190,50,50,0.07); color: #b03030; border: 1px solid rgba(190,50,50,0.18); }
 
 .dispo-cta {
-  background: linear-gradient(135deg, var(--forest-dark) 0%, var(--forest) 60%, #162e1f 100%);
+  background: linear-gradient(135deg, var(--forest-dark) 0%, var(--forest) 60%, #0e2447 100%);
   border-radius: var(--radius); padding: 44px 48px;
   position: relative; overflow: hidden;
 }
@@ -849,7 +849,7 @@ a { text-decoration: none; color: inherit; }
   font-family: var(--font-body); font-weight: 800; font-size: 1rem;
   padding: 10px 22px; border-radius: 50px;
   margin-bottom: 20px;
-  box-shadow: 0 4px 20px rgba(201,168,76,0.45);
+  box-shadow: 0 4px 20px rgba(244,180,0,0.45);
   letter-spacing: 0.01em;
 }
 .saving-badge svg { width: 18px; height: 18px; fill: none; stroke: var(--forest-dark); flex-shrink: 0; }
@@ -891,7 +891,7 @@ a { text-decoration: none; color: inherit; }
 .equip-item {
   background: var(--white); border-radius: var(--radius);
   padding: 24px 20px; text-align: center;
-  border: 1px solid rgba(45,90,61,0.08); box-shadow: var(--shadow);
+  border: 1px solid rgba(46,125,50,0.08); box-shadow: var(--shadow);
   transition: transform var(--transition), box-shadow var(--transition);
   cursor: default;
 }
@@ -916,7 +916,7 @@ a { text-decoration: none; color: inherit; }
 #activites { background: var(--cream); }
 .activites-tabs {
   display: flex; gap: 8px; margin: 48px 0 36px;
-  border-bottom: 1px solid rgba(45,90,61,0.12); padding-bottom: 0;
+  border-bottom: 1px solid rgba(46,125,50,0.12); padding-bottom: 0;
 }
 .tab-btn {
   font-family: var(--font-body); font-weight: 600; font-size: 0.88rem;
@@ -933,7 +933,7 @@ a { text-decoration: none; color: inherit; }
 .activ-card {
   background: var(--white); border-radius: var(--radius);
   overflow: hidden; box-shadow: var(--shadow);
-  border: 1px solid rgba(45,90,61,0.07);
+  border: 1px solid rgba(46,125,50,0.07);
   transition: transform var(--transition), box-shadow var(--transition);
   cursor: default;
 }
@@ -963,14 +963,14 @@ a { text-decoration: none; color: inherit; }
 .loc-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
 .loc-tag {
   display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(45,90,61,0.08); color: var(--alpine);
+  background: rgba(46,125,50,0.08); color: var(--alpine);
   font-size: 0.8rem; font-weight: 500; padding: 7px 14px;
-  border-radius: 50px; border: 1px solid rgba(45,90,61,0.15);
+  border-radius: 50px; border: 1px solid rgba(46,125,50,0.15);
 }
 .loc-tag svg { width: 14px; height: 14px; stroke: var(--alpine); fill: none; stroke-width: 2; }
 .loc-map {
   border-radius: var(--radius); overflow: hidden;
-  box-shadow: var(--shadow-lg); border: 1px solid rgba(45,90,61,0.1);
+  box-shadow: var(--shadow-lg); border: 1px solid rgba(46,125,50,0.1);
   height: 380px;
 }
 .loc-map iframe { width: 100%; height: 100%; border: none; display: block; }
@@ -991,7 +991,7 @@ a { text-decoration: none; color: inherit; }
 .avis-card {
   background: var(--white); border-radius: var(--radius);
   padding: 28px; box-shadow: var(--shadow);
-  border: 1px solid rgba(45,90,61,0.07);
+  border: 1px solid rgba(46,125,50,0.07);
   transition: transform var(--transition), box-shadow var(--transition);
 }
 .avis-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
@@ -1017,7 +1017,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ── RÉSERVATION ── */
 #reservation {
-  background: linear-gradient(135deg, var(--forest-dark), var(--forest), #152b1e);
+  background: linear-gradient(135deg, var(--forest-dark), var(--forest), #0d2040);
   padding: 96px 6%; color: #fff; text-align: center; position: relative; overflow: hidden;
 }
 #reservation::before {
@@ -1037,13 +1037,13 @@ a { text-decoration: none; color: inherit; }
 .resa-actions { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-bottom: 56px; }
 .btn-resa-primary {
   display: inline-flex; align-items: center; gap: 10px;
-  background: var(--gold); color: var(--forest-dark);
+  background: var(--forest); color: #fff;
   font-family: var(--font-body); font-weight: 700; font-size: 1rem;
   padding: 17px 36px; border-radius: 50px;
-  box-shadow: 0 4px 24px rgba(201,168,76,0.5);
+  box-shadow: 0 4px 24px rgba(30,58,95,0.5);
   transition: all var(--transition);
 }
-.btn-resa-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 36px rgba(201,168,76,0.6); }
+.btn-resa-primary:hover { background: var(--alpine); transform: translateY(-2px); box-shadow: 0 8px 36px rgba(30,58,95,0.6); }
 .btn-resa-primary svg { width: 20px; height: 20px; flex-shrink: 0; }
 .btn-resa-secondary {
   display: inline-flex; align-items: center; gap: 10px;
@@ -1107,7 +1107,7 @@ footer a:hover { color: var(--gold-light); }
 .galerie-item--wide { height: 220px; }
 .galerie-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(10,26,15,0.55), transparent 60%);
+  background: linear-gradient(to top, rgba(8,22,46,0.55), transparent 60%);
   opacity: 0; transition: opacity var(--transition);
 }
 .galerie-item:hover .galerie-overlay { opacity: 1; }
@@ -1115,7 +1115,7 @@ footer a:hover { color: var(--gold-light); }
 /* Lightbox */
 #lightbox {
   display: none; position: fixed; inset: 0; z-index: 9000;
-  background: rgba(5,14,7,0.96); align-items: center; justify-content: center;
+  background: rgba(10,20,42,0.96); align-items: center; justify-content: center;
   padding: 20px;
 }
 #lightbox.open { display: flex; }
@@ -1181,8 +1181,8 @@ footer a:hover { color: var(--gold-light); }
 /* ── FAQ SECTION ── */
 #faq { background: var(--snow); }
 .faq-list { margin-top: 48px; }
-.faq-item { border-bottom: 1px solid rgba(74,124,95,0.15); }
-.faq-item:first-child { border-top: 1px solid rgba(74,124,95,0.15); }
+.faq-item { border-bottom: 1px solid rgba(67,160,71,0.15); }
+.faq-item:first-child { border-top: 1px solid rgba(67,160,71,0.15); }
 .faq-btn {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   width: 100%; background: none; border: none; cursor: pointer;
@@ -1271,9 +1271,9 @@ footer a:hover { color: var(--gold-light); }
     <div class="hero-grid"></div>
   </div>
   <svg class="hero-mountain" viewBox="0 0 1440 280" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="none">
-    <path d="M0 280 L180 120 L300 200 L480 60 L600 160 L720 20 L840 140 L960 80 L1080 180 L1200 100 L1320 200 L1440 140 L1440 280 Z" fill="rgba(74,124,95,0.5)"/>
-    <path d="M0 280 L160 160 L280 220 L440 100 L560 180 L680 60 L800 160 L920 100 L1040 200 L1160 130 L1300 220 L1440 160 L1440 280 Z" fill="rgba(45,90,61,0.6)"/>
-    <path d="M0 280 L200 200 L360 240 L520 160 L640 220 L760 140 L880 200 L1000 160 L1120 240 L1280 180 L1440 240 L1440 280 Z" fill="rgba(26,61,40,0.8)"/>
+    <path d="M0 280 L180 120 L300 200 L480 60 L600 160 L720 20 L840 140 L960 80 L1080 180 L1200 100 L1320 200 L1440 140 L1440 280 Z" fill="rgba(67,160,71,0.5)"/>
+    <path d="M0 280 L160 160 L280 220 L440 100 L560 180 L680 60 L800 160 L920 100 L1040 200 L1160 130 L1300 220 L1440 160 L1440 280 Z" fill="rgba(46,125,50,0.6)"/>
+    <path d="M0 280 L200 200 L360 240 L520 160 L640 220 L760 140 L880 200 L1000 160 L1120 240 L1280 180 L1440 240 L1440 280 Z" fill="rgba(30,58,95,0.8)"/>
   </svg>
   <div class="hero-inner">
     <div class="hero-content">
@@ -1511,7 +1511,7 @@ footer a:hover { color: var(--gold-light); }
 
     <div id="tab-hiver" class="tab-panel active" role="tabpanel" aria-labelledby="btn-hiver">
       <div class="activ-card">
-        <div class="activ-card-img" style="background:linear-gradient(135deg,#1a3d28,#2d5a3d)">
+        <div class="activ-card-img" style="background:linear-gradient(135deg,#1E3A5F,#2E7D32)">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L8 12H2l5 4-2 6 7-4 7 4-2-6 5-4h-6z" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="activ-card-body">
@@ -1520,7 +1520,7 @@ footer a:hover { color: var(--gold-light); }
         </div>
       </div>
       <div class="activ-card">
-        <div class="activ-card-img" style="background:linear-gradient(135deg,#0f2318,#1a3d28)">
+        <div class="activ-card-img" style="background:linear-gradient(135deg,#152a46,#1E3A5F)">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M3 6l9-3 9 3M3 18l9 3 9-3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="activ-card-body">
@@ -1529,7 +1529,7 @@ footer a:hover { color: var(--gold-light); }
         </div>
       </div>
       <div class="activ-card">
-        <div class="activ-card-img" style="background:linear-gradient(135deg,#2d5a3d,#4a7c5f)">
+        <div class="activ-card-img" style="background:linear-gradient(135deg,#2E7D32,#43A047)">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3" stroke-linecap="round"/></svg>
         </div>
         <div class="activ-card-body">
@@ -1541,7 +1541,7 @@ footer a:hover { color: var(--gold-light); }
 
     <div id="tab-ete" class="tab-panel" role="tabpanel" aria-labelledby="btn-ete">
       <div class="activ-card">
-        <div class="activ-card-img" style="background:linear-gradient(135deg,#4a7c5f,#7aaa8f)">
+        <div class="activ-card-img" style="background:linear-gradient(135deg,#43A047,#81C784)">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-8 4 5 3-4 6 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="activ-card-body">
@@ -1550,7 +1550,7 @@ footer a:hover { color: var(--gold-light); }
         </div>
       </div>
       <div class="activ-card">
-        <div class="activ-card-img" style="background:linear-gradient(135deg,#2d5a3d,#4a7c5f)">
+        <div class="activ-card-img" style="background:linear-gradient(135deg,#2E7D32,#43A047)">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2"/><path d="M12 6v6m-3 0h6"/></svg>
         </div>
         <div class="activ-card-body">
@@ -1559,7 +1559,7 @@ footer a:hover { color: var(--gold-light); }
         </div>
       </div>
       <div class="activ-card">
-        <div class="activ-card-img" style="background:linear-gradient(135deg,#1a3d28,#2d5a3d)">
+        <div class="activ-card-img" style="background:linear-gradient(135deg,#1E3A5F,#2E7D32)">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10" stroke-linecap="round"/><path d="M12 6v6l4 2" stroke-linecap="round"/></svg>
         </div>
         <div class="activ-card-body">
