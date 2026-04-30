@@ -1056,8 +1056,7 @@ footer {
 footer a { color: rgba(255,255,255,0.45); transition: color var(--transition); }
 footer a:hover { color: var(--gold-light); }
 .footer-logo {
-  font-family: var(--font-head); font-weight: 700; font-size: 1.1rem;
-  color: rgba(255,255,255,0.75); margin-bottom: 12px;
+  display: flex; justify-content: center; margin-bottom: 16px;
 }
 .footer-links { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-bottom: 20px; }
 .footer-sep { color: rgba(255,255,255,0.15); }
@@ -1798,7 +1797,9 @@ footer a:hover { color: var(--gold-light); }
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Studio Devoluy</div>
+  <div class="footer-logo">
+    <img src="logo%20navbar.png" alt="Studio Devoluy" style="height:40px;width:auto;filter:brightness(0) invert(1);opacity:0.75;">
+  </div>
   <nav class="footer-links" aria-label="Liens footer">
     <a href="#studio">Le Studio</a>
     <span class="footer-sep" aria-hidden="true">·</span>
