@@ -14,16 +14,64 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch iCal from Airbnb
+      - name: Fetch and sanitize Airbnb calendar
+        env:
+          AIRBNB_ICAL_URL: ${{ secrets.AIRBNB_ICAL_URL }}
         run: |
-          curl -s --max-time 30 \
-            "https://www.airbnb.com/calendar/ical/53531375.ics?t=657c42e7c3194732b17c7ccf7f0b5fcc&locale=fr" \
-            -o calendar.ics
+          set -euo pipefail
+          if [ -z "${AIRBNB_ICAL_URL}" ]; then
+            echo "::error::Add the rotated Airbnb iCal URL as the AIRBNB_ICAL_URL repository secret."
+            exit 1
+          fi
+          curl --fail --show-error --silent --location --max-time 30 \
+            "${AIRBNB_ICAL_URL}" -o /tmp/airbnb.ics
+
+          python3 - <<'PY'
+          import re
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          raw = Path("/tmp/airbnb.ics").read_text(encoding="utf-8")
+          if "BEGIN:VCALENDAR" not in raw or "END:VCALENDAR" not in raw:
+              raise SystemExit("Airbnb response is not a valid iCalendar feed")
+
+          blocks = re.findall(r"BEGIN:VEVENT([\\s\\S]*?)END:VEVENT", raw)
+          events = []
+          for block in blocks:
+              start = re.search(r"(?:^|\\r?\\n)DTSTART(?:;[^:]*)?:(\\d{8})", block)
+              end = re.search(r"(?:^|\\r?\\n)DTEND(?:;[^:]*)?:(\\d{8})", block)
+              if not start or not end:
+                  raise SystemExit("Airbnb feed contains an event without valid all-day dates")
+              a, b = start.group(1), end.group(1)
+              if datetime.strptime(b, "%Y%m%d") <= datetime.strptime(a, "%Y%m%d"):
+                  raise SystemExit("Airbnb feed contains an invalid date range")
+              events.append((a, b))
+
+          stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+          lines = [
+              "BEGIN:VCALENDAR",
+              "PRODID:-//Studio Devoluy//Availability Calendar 1.0//EN",
+              "VERSION:2.0",
+              "CALSCALE:GREGORIAN",
+          ]
+          for start, end in events:
+              lines.extend([
+                  "BEGIN:VEVENT",
+                  f"UID:{start}-{end}@studiodevoluy.fr",
+                  f"DTSTAMP:{stamp}",
+                  f"DTSTART;VALUE=DATE:{start}",
+                  f"DTEND;VALUE=DATE:{end}",
+                  "SUMMARY:Unavailable",
+                  "END:VEVENT",
+              ])
+          lines.extend(["END:VCALENDAR", ""])
+          Path("calendar.ics").write_text("\\r\\n".join(lines), encoding="utf-8")
+          PY
 
       - name: Commit if changed
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
           git add calendar.ics
-          git diff --staged --quiet || git commit -m "chore: sync Airbnb calendar [skip ci]"
+          git diff --staged --quiet || git commit -m "chore: sync sanitized Airbnb availability [skip ci]"
           git push
