@@ -16,15 +16,15 @@ jobs:
 
       - name: Fetch and sanitize Airbnb calendar
         env:
-          AIRBNB_ICAL_URL: ${{ secrets.AIRBNB_ICAL_URL }}
+          AIRBNB_ICAL_URL: \${{ secrets.AIRBNB_ICAL_URL }}
         run: |
           set -euo pipefail
-          if [ -z "${AIRBNB_ICAL_URL}" ]; then
+          if [ -z "\${AIRBNB_ICAL_URL}" ]; then
             echo "::error::Add the rotated Airbnb iCal URL as the AIRBNB_ICAL_URL repository secret."
             exit 1
           fi
           curl --fail --show-error --silent --location --max-time 30 \
-            "${AIRBNB_ICAL_URL}" -o /tmp/airbnb.ics
+            "\${AIRBNB_ICAL_URL}" -o /tmp/airbnb.ics
 
           python3 - <<'PY'
           import re
@@ -35,11 +35,11 @@ jobs:
           if "BEGIN:VCALENDAR" not in raw or "END:VCALENDAR" not in raw:
               raise SystemExit("Airbnb response is not a valid iCalendar feed")
 
-          blocks = re.findall(r"BEGIN:VEVENT([\\s\\S]*?)END:VEVENT", raw)
+          blocks = re.findall(r"BEGIN:VEVENT([\s\S]*?)END:VEVENT", raw)
           events = []
           for block in blocks:
-              start = re.search(r"(?:^|\\r?\\n)DTSTART(?:;[^:]*)?:(\\d{8})", block)
-              end = re.search(r"(?:^|\\r?\\n)DTEND(?:;[^:]*)?:(\\d{8})", block)
+              start = re.search(r"(?:^|\r?\n)DTSTART(?:;[^:]*)?:(\d{8})", block)
+              end = re.search(r"(?:^|\r?\n)DTEND(?:;[^:]*)?:(\d{8})", block)
               if not start or not end:
                   raise SystemExit("Airbnb feed contains an event without valid all-day dates")
               a, b = start.group(1), end.group(1)
@@ -65,7 +65,7 @@ jobs:
                   "END:VEVENT",
               ])
           lines.extend(["END:VCALENDAR", ""])
-          Path("calendar.ics").write_text("\\r\\n".join(lines), encoding="utf-8")
+          Path("calendar.ics").write_text("\r\n".join(lines), encoding="utf-8")
           PY
 
       - name: Commit if changed
