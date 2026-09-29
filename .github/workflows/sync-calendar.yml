@@ -16,15 +16,15 @@ jobs:
 
       - name: Fetch and sanitize Airbnb calendar
         env:
-          AIRBNB_ICAL_URL: \${{ secrets.AIRBNB_ICAL_URL }}
+          AIRBNB_ICAL_URL: ${{ secrets.AIRBNB_ICAL_URL }}
         run: |
           set -euo pipefail
-          if [ -z "\${AIRBNB_ICAL_URL}" ]; then
+          if [ -z "${AIRBNB_ICAL_URL}" ]; then
             echo "::error::Add the rotated Airbnb iCal URL as the AIRBNB_ICAL_URL repository secret."
             exit 1
           fi
           curl --fail --show-error --silent --location --max-time 30 \
-            "\${AIRBNB_ICAL_URL}" -o /tmp/airbnb.ics
+            "${AIRBNB_ICAL_URL}" -o /tmp/airbnb.ics
 
           python3 - <<'PY'
           import re
