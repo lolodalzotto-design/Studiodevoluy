@@ -361,13 +361,16 @@ a { text-decoration: none; color: inherit; }
 /* ── HERO ── */
 #hero {
   min-height: 100vh;
-  background:
-    linear-gradient(160deg, rgba(10,20,42,0.82) 0%, rgba(14,28,56,0.68) 50%, rgba(10,20,42,0.88) 100%),
-    url('IMG-20260426-WA0006.jpg') center / cover no-repeat;
+  background: #0a142a;
   position: relative; display: flex; align-items: center;
   overflow: hidden; padding: 120px 6% 80px;
 }
-.hero-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+#hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(160deg, rgba(10,20,42,0.82) 0%, rgba(14,28,56,0.68) 50%, rgba(10,20,42,0.88) 100%);
+}
+.hero-image { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.hero-bg { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
 .hero-orb {
   position: absolute; border-radius: 50%;
   background: radial-gradient(circle, rgba(67,160,71,0.25), transparent 70%);
@@ -1284,6 +1287,7 @@ footer a:hover { color: var(--gold-light); }
 
 <!-- HERO -->
 <section id="hero" aria-label="Studio Devoluy — Location de vacances Superdévoluy">
+  <img class="hero-image" src="IMG-20260426-WA0006.jpg" alt="Studio de vacances à Superdévoluy, avec vue sur la vallée depuis la résidence Le Bois d’Aurouze" width="2048" height="1536" fetchpriority="high" decoding="async">
   <div class="hero-bg" aria-hidden="true">
     <div class="hero-orb"></div>
     <div class="hero-orb"></div>
