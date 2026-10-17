@@ -1999,8 +1999,6 @@ let bookedDates = new Set();
 let calendarLoaded = false;
 
 (async function() {
-  const ICAL_URL = 'https://www.airbnb.com/calendar/ical/53531375.ics?t=657c42e7c3194732b17c7ccf7f0b5fcc&locale=fr';
-
   function parseIcal(text) {
     const booked = new Set();
     const re = /BEGIN:VEVENT([\s\S]*?)END:VEVENT/g;
@@ -2020,27 +2018,30 @@ let calendarLoaded = false;
   }
 
   async function fetchIcal() {
-    const timeout = 8000;
-    const tryFetch = async (url, json) => {
-      const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort(), timeout);
-      try {
-        const r = await fetch(url, { signal: ctrl.signal });
-        clearTimeout(t);
-        if (!r.ok) return null;
-        return json ? (await r.json()).contents : await r.text();
-      } catch(e) { clearTimeout(t); return null; }
-    };
-    return (
-      await tryFetch('/calendar.ics', false) ||
-      await tryFetch('https://corsproxy.io/?' + encodeURIComponent(ICAL_URL), false) ||
-      await tryFetch('https://api.allorigins.win/get?url=' + encodeURIComponent(ICAL_URL), true) ||
-      null
-    );
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    try {
+      const response = await fetch('./calendar.ics', {
+        signal: ctrl.signal,
+        cache: 'no-store'
+      });
+      if (!response.ok) return null;
+      return await response.text();
+    } catch (e) {
+      return null;
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
   const text = await fetchIcal();
-  if (text) {
+  const updated = text && text.match(/^X-SYNC-UPDATED-AT:(.+)$/m);
+  const updatedAt = updated ? Date.parse(updated[1].trim()) : NaN;
+  const age = Date.now() - updatedAt;
+  const valid = text && /^BEGIN:VCALENDAR\r?$/m.test(text)
+    && /^END:VCALENDAR\r?$/m.test(text);
+  // A failed synchronisation must never make old availability look current.
+  if (valid && Number.isFinite(updatedAt) && age >= -300000 && age <= 86400000) {
     bookedDates = parseIcal(text);
     calendarLoaded = true;
   } else {
