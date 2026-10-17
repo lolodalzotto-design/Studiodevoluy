@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: sync-airbnb-calendar
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -23,7 +27,7 @@ jobs:
             echo "::error::Add the rotated Airbnb iCal URL as the AIRBNB_ICAL_URL repository secret."
             exit 1
           fi
-          curl --fail --show-error --silent --location --max-time 30 \
+          curl --fail --show-error --silent --location --retry 3 --connect-timeout 10 --max-time 30 \
             "${AIRBNB_ICAL_URL}" -o /tmp/airbnb.ics
 
           python3 - <<'PY'
@@ -53,6 +57,7 @@ jobs:
               "PRODID:-//Studio Devoluy//Availability Calendar 1.0//EN",
               "VERSION:2.0",
               "CALSCALE:GREGORIAN",
+              "X-SYNC-UPDATED-AT:" + datetime.now(timezone.utc).isoformat(),
           ]
           for start, end in events:
               lines.extend([
